@@ -37,22 +37,53 @@ export function NewLeadPanel() {
     router.push(pathname, { scroll: false });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // TODO: To be wired to the NestJS backend in the next step.
-    // For now, we simulate a network request.
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success("Lead added successfully", {
-        description: "The new client has been saved to your pipeline.",
+    // 1. Extract data elegantly using standard browser APIs
+    const formData = new FormData(e.currentTarget);
+    const leadData = Object.fromEntries(formData.entries());
+
+    // 2. Retrieve the JWT token we saved in the cookie during login
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("tracker_token="))
+      ?.split("=")[1];
+
+    try {
+      // 3. Send the secure request to NestJS
+      const response = await fetch("http://localhost:3001/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Pass the bouncer
+        },
+        body: JSON.stringify(leadData),
       });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to save lead");
+      }
+
+      toast.success("Lead added successfully", {
+        description: `${result.business_name} has been added to your pipeline.`,
+      });
+
       closePanel();
-    }, 1000);
+
+      router.refresh();
+    } catch (error: any) {
+      toast.error("Operation Failed", {
+        description: error.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  // If not open and not animating, remove entirely from the DOM
   if (!isOpen && !isAnimating) return null;
 
   return (

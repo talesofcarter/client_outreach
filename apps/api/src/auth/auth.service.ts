@@ -3,7 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { DatabaseService } from '../database.service';
 import * as bcrypt from 'bcrypt';
 
-// We define an interface so TypeScript knows exactly what the database row looks like
 interface UserRow {
   id: string;
   email: string;

@@ -8,7 +8,7 @@ import { DatabaseService } from '../database.service';
   imports: [
     JwtModule.register({
       global: true,
-      secret: 'fdf-vb5-dfdf-cvwx-oit8-bmcs', // to be move to .env later
+      secret: 'fdf-vb5-dfdf-cvwx-oit8-bmcs',
       signOptions: { expiresIn: '1d' },
     }),
   ],
