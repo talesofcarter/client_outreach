@@ -11,6 +11,7 @@ import {
   Phone,
   Target,
   Loader2,
+  Tag,
 } from "lucide-react";
 import { toast } from "@/lib/toast";
 
@@ -41,11 +42,11 @@ export function NewLeadPanel() {
     e.preventDefault();
     setIsLoading(true);
 
-    // 1. Extract data elegantly using standard browser APIs
+    // 1. Extract data using standard browser APIs
     const formData = new FormData(e.currentTarget);
     const leadData = Object.fromEntries(formData.entries());
 
-    // 2. Retrieve the JWT token we saved in the cookie during login
+    // 2. Retrieve the JWT token saved in the cookie during login
     const token = document.cookie
       .split("; ")
       .find((row) => row.startsWith("tracker_token="))
@@ -57,7 +58,7 @@ export function NewLeadPanel() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Pass the bouncer
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(leadData),
       });
@@ -163,25 +164,22 @@ export function NewLeadPanel() {
               </div>
 
               <div className="relative group">
-                <select
-                  id="category"
-                  className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer disabled:opacity-50 cursor-pointer"
-                  defaultValue=""
-                  required
-                >
-                  <option value="" disabled className="hidden"></option>
-                  <option value="retail">Retail / E-Commerce</option>
-                  <option value="tech">Technology / SaaS</option>
-                  <option value="healthcare">Healthcare</option>
-                  <option value="real_estate">Real Estate</option>
-                  <option value="general">General Business</option>
-                </select>
-                <label
-                  htmlFor="category"
-                  className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-pointer"
-                >
-                  Category
-                </label>
+                <div className="relative group">
+                  <input
+                    type="text"
+                    id="category"
+                    name="category"
+                    className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer disabled:opacity-50"
+                    placeholder=" "
+                    required
+                  />
+                  <label
+                    htmlFor="category"
+                    className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
+                  >
+                    <Tag className="w-4 h-4" /> Category
+                  </label>
+                </div>
               </div>
             </div>
 
