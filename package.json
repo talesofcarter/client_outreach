@@ -1,0 +1,13 @@
+{
+  "name": "client-outreach tracker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:web": "pnpm --filter web dev",
+    "dev:api": "pnpm --filter api start:dev",
+    "dev": "concurrently \"pnpm dev:web\" \"pnpm dev:api\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}
