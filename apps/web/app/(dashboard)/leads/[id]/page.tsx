@@ -1,9 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { useParams, useRouter, usePathname } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "@/lib/toast";
-import { EditLeadPanel } from "@/components/leads/edit-lead-panel";
 import {
   ArrowLeft,
   Building2,
@@ -16,8 +15,11 @@ import {
   Loader2,
   Edit,
   Trash2,
+  AlertTriangle,
 } from "lucide-react";
+import { toast } from "@/lib/toast";
 import { Lead, LeadStatus } from "@/types";
+import { EditLeadPanel } from "@/components/leads/edit-lead-panel";
 
 const getAuthToken = () => {
   if (typeof document === "undefined") return null;
@@ -69,6 +71,10 @@ export default function LeadDetailsPage() {
   const leadId = params.id as string;
   const queryClient = useQueryClient();
 
+  // State for our custom premium modal
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  // Fetch the active lead
   const {
     data: lead,
     isLoading,
@@ -85,7 +91,6 @@ export default function LeadDetailsPage() {
     },
   });
 
-  // 1. The Secure Delete Mutation
   const deleteMutation = useMutation({
     mutationFn: async () => {
       const token = getAuthToken();
@@ -93,36 +98,40 @@ export default function LeadDetailsPage() {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error("Failed to delete lead");
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.message || "Failed to delete lead");
+      }
     },
     onSuccess: () => {
       toast.success("Lead Deleted", {
         description: "The lead has been permanently removed.",
       });
-      queryClient.invalidateQueries({ queryKey: ["leads"] }); // Refresh dashboard list
-      router.push("/"); // Boot user back to dashboard
+      queryClient.invalidateQueries({ queryKey: ["leads"] });
+      router.push("/");
     },
-    onError: (err: any) => {
-      toast.error("Error", { description: err.message });
+
+    onError: (error: Error) => {
+      toast.error("Deletion Failed", { description: error.message });
+      setIsDeleteModalOpen(false);
     },
   });
 
-  // 2. The Button Handlers
+  // Button Handlers
   const handleEdit = () => {
     router.push(`${pathname}?action=edit-lead`, { scroll: false });
   };
 
-  const handleDelete = () => {
-    // Add a native browser confirmation dialog to prevent accidental clicks
-    if (
-      window.confirm(
-        "Are you sure you want to delete this lead? This action cannot be undone.",
-      )
-    ) {
-      deleteMutation.mutate();
-    }
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
   };
 
+  const confirmDelete = () => {
+    deleteMutation.mutate();
+  };
+
+  // Loading and Error States
   if (isLoading) {
     return (
       <div className="h-full flex flex-col items-center justify-center space-y-4">
@@ -140,7 +149,7 @@ export default function LeadDetailsPage() {
         </p>
         <button
           onClick={() => router.push("/")}
-          className="mt-4 text-[#3186ff] hover:underline"
+          className="mt-4 text-[#3186ff] hover:underline font-medium"
         >
           Return to Dashboard
         </button>
@@ -169,25 +178,17 @@ export default function LeadDetailsPage() {
           >
             <Edit className="w-4 h-4" /> Edit
           </button>
-
           <button
-            onClick={handleDelete}
-            disabled={deleteMutation.isPending}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#ea4335] bg-white border border-[#e0e0e0] rounded-xl hover:bg-[#fef2f2] hover:border-[#ea4335]/30 transition-colors shadow-sm disabled:opacity-50"
+            onClick={handleDeleteClick}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#ea4335] bg-white border border-[#e0e0e0] rounded-xl hover:bg-[#fef2f2] hover:border-[#ea4335]/30 transition-colors shadow-sm"
           >
-            {deleteMutation.isPending ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Trash2 className="w-4 h-4" />
-            )}
-            Delete
+            <Trash2 className="w-4 h-4" /> Delete
           </button>
         </div>
       </div>
 
       {/* 2. Header Identity Card */}
       <div className="bg-white rounded-[28px] p-8 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] relative overflow-hidden">
-        {/* Subtle background accent based on status */}
         <div
           className={`absolute top-0 right-0 w-64 h-64 opacity-5 rounded-bl-[200px] pointer-events-none ${badge.colors.split(" ")[0]}`}
         />
@@ -230,7 +231,7 @@ export default function LeadDetailsPage() {
 
       {/* 3. Detailed Information Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Left Column: Core Issues & Notes */}
+        {/* Left Column: Core Issues */}
         <div className="md:col-span-2 space-y-6">
           <div className="bg-white rounded-3xl p-7 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)]">
             <h3 className="text-[18px] font-medium text-[#1f1f1f] mb-4 border-b border-[#e0e0e0]/60 pb-3">
@@ -241,7 +242,6 @@ export default function LeadDetailsPage() {
             </p>
           </div>
 
-          {/* Placeholder for future activity timeline / notes */}
           <div className="bg-white rounded-3xl p-7 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] opacity-60">
             <h3 className="text-[18px] font-medium text-[#1f1f1f] mb-4 border-b border-[#e0e0e0]/60 pb-3">
               Activity Log
@@ -328,7 +328,61 @@ export default function LeadDetailsPage() {
           </div>
         </div>
       </div>
+
+      {/* Slide-out Edit Panel Component */}
       <EditLeadPanel lead={lead} />
+
+      {/* The Premium Delete Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center pointer-events-auto">
+          {/* Glassmorphism Backdrop */}
+          <div
+            onClick={() => setIsDeleteModalOpen(false)}
+            className="absolute inset-0 bg-[#1f1f1f]/20 backdrop-blur-[2px] animate-in fade-in duration-200"
+          />
+
+          {/* Modal Card */}
+          <div className="relative bg-white w-full max-w-110 rounded-3xl p-8 shadow-[0_24px_80px_rgba(0,0,0,0.12)] animate-in zoom-in-95 fade-in duration-200 ease-out m-4">
+            {/* Warning Icon Badge */}
+            <div className="w-12 h-12 rounded-full bg-[#ea4335]/10 text-[#ea4335] flex items-center justify-center mb-5 border border-[#ea4335]/20">
+              <AlertTriangle className="w-6 h-6" strokeWidth={2.5} />
+            </div>
+
+            {/* Typography */}
+            <h3 className="text-[20px] font-medium text-[#1f1f1f] tracking-tight mb-2">
+              Delete this lead?
+            </h3>
+            <p className="text-[15px] text-[#444746] leading-relaxed mb-8">
+              This action cannot be undone. All data, contact details, and
+              pipeline history for{" "}
+              <strong className="text-[#1f1f1f]">{lead.business_name}</strong>{" "}
+              will be permanently removed from your database.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex items-center justify-end gap-3">
+              <button
+                onClick={() => setIsDeleteModalOpen(false)}
+                disabled={deleteMutation.isPending}
+                className="px-5 py-2.5 text-[14px] font-medium text-[#444746] hover:bg-[#f0f4f9] rounded-xl transition-colors disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={deleteMutation.isPending}
+                className="flex items-center justify-center gap-2 px-6 py-2.5 text-[14px] font-medium bg-[#ea4335] text-white rounded-xl shadow-sm hover:bg-[#dc2626] transition-all active:scale-[0.98] min-w-30 disabled:opacity-70"
+              >
+                {deleteMutation.isPending ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  "Delete Lead"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

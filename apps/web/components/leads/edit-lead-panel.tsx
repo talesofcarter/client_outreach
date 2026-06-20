@@ -13,6 +13,7 @@ import {
   Target,
   Loader2,
   Flag,
+  Tag,
 } from "lucide-react";
 import { toast } from "@/lib/toast";
 import { Lead } from "@/types";
@@ -61,19 +62,26 @@ export function EditLeadPanel({ lead }: { lead: Lead }) {
         body: JSON.stringify(updateData),
       });
 
-      if (!response.ok) throw new Error("Failed to update lead");
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || "Failed to update lead");
+      }
 
       toast.success("Lead updated", {
         description: "Changes saved successfully.",
       });
 
-      // Instantly refresh the data on the screen
       queryClient.invalidateQueries({ queryKey: ["lead", lead.id] });
       queryClient.invalidateQueries({ queryKey: ["leads"] });
 
       closePanel();
-    } catch (error: any) {
-      toast.error("Update Failed", { description: error.message });
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred.";
+
+      toast.error("Update Failed", { description: errorMessage });
     } finally {
       setIsLoading(false);
     }
@@ -178,26 +186,23 @@ export function EditLeadPanel({ lead }: { lead: Lead }) {
               </div>
 
               <div className="relative group">
-                <select
-                  id="category"
-                  name="category"
-                  defaultValue={lead.category}
-                  className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] peer cursor-pointer"
-                  required
-                >
-                  <option value="retail">Retail / E-Commerce</option>
-                  <option value="tech">Technology / SaaS</option>
-                  <option value="healthcare">Healthcare</option>
-                  <option value="real_estate">Real Estate</option>
-                  <option value="general">General Business</option>
-                  <option value="logistics">Logistics</option>
-                </select>
-                <label
-                  htmlFor="category"
-                  className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:text-[#3186ff] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 cursor-pointer"
-                >
-                  Category
-                </label>
+                <div className="relative group">
+                  <input
+                    type="text"
+                    id="category"
+                    name="category"
+                    defaultValue={lead.category}
+                    className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] peer"
+                    required
+                    placeholder=" "
+                  />
+                  <label
+                    htmlFor="category"
+                    className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:text-[#3186ff] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 flex items-center gap-1.5 cursor-text"
+                  >
+                    <Tag className="w-4 h-4" /> Category
+                  </label>
+                </div>
               </div>
             </div>
 
@@ -292,7 +297,7 @@ export function EditLeadPanel({ lead }: { lead: Lead }) {
             type="submit"
             form="edit-lead-form"
             disabled={isLoading}
-            className="flex items-center justify-center gap-2 px-6 py-2.5 text-[14px] font-medium bg-[#3186ff] text-white rounded-xl shadow-sm hover:bg-[#2872dd] transition-all active:scale-[0.98] min-w-[140px] disabled:opacity-70"
+            className="flex items-center justify-center gap-2 px-6 py-2.5 text-[14px] font-medium bg-[#3186ff] text-white rounded-xl shadow-sm hover:bg-[#2872dd] transition-all active:scale-[0.98] min-w-35 disabled:opacity-70"
           >
             {isLoading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
