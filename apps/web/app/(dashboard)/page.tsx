@@ -1,9 +1,93 @@
-import { ArrowUpRight, Clock, CheckCircle2 } from "lucide-react";
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import {
+  ArrowUpRight,
+  Clock,
+  CheckCircle2,
+  Loader2,
+  Target,
+} from "lucide-react";
+import { Lead, LeadStatus } from "@/types";
+
+const getAuthToken = () => {
+  if (typeof document === "undefined") return null;
+  return document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("tracker_token="))
+    ?.split("=")[1];
+};
+
+const formatDate = (dateString: string) => {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(dateString));
+};
+
+// 2. Strictly type the config. If you add a status to the backend later,
+// TypeScript will flag an error here until you add the colors for it!
+const statusConfig: Record<LeadStatus, { label: string; colors: string }> = {
+  not_contacted: {
+    label: "Not Contacted",
+    colors: "bg-[#f0f4f9] text-[#444746] border-[#e0e0e0]",
+  },
+  contacted: {
+    label: "Contacted",
+    colors: "bg-[#3186ff]/10 text-[#3186ff] border-[#3186ff]/20",
+  },
+  follow_up_scheduled: {
+    label: "Follow-up",
+    colors: "bg-[#fed50d]/20 text-[#d97706] border-[#fed50d]/30",
+  },
+  negotiating: {
+    label: "Negotiating",
+    colors: "bg-[#3186ff]/10 text-[#3186ff] border-[#3186ff]/20",
+  },
+  won: {
+    label: "Won",
+    colors: "bg-[#0ebc5f]/10 text-[#16a34a] border-[#0ebc5f]/20",
+  },
+  lost: {
+    label: "Lost",
+    colors: "bg-[#ea4335]/10 text-[#dc2626] border-[#ea4335]/20",
+  },
+};
 
 export default function DashboardHome() {
+  // 3. Define the expected return type for TanStack Query
+  const { data: leads = [], isLoading } = useQuery<Lead[]>({
+    queryKey: ["leads"],
+    queryFn: async () => {
+      const token = getAuthToken();
+      const res = await fetch("http://localhost:3001/leads", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Failed to fetch leads");
+      return res.json();
+    },
+  });
+
+  // 4. No more 'any'! We explicitly tell the filter functions what 'l' is.
+  const activeLeadsCount = leads.filter(
+    (l: Lead) => l.status !== "won" && l.status !== "lost",
+  ).length;
+  const pendingFollowUps = leads.filter(
+    (l: Lead) => l.status === "follow_up_scheduled",
+  ).length;
+  const dealsWonCount = leads.filter((l: Lead) => l.status === "won").length;
+
+  if (isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-[#3186ff] animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-300 mx-auto w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
-      {/* Greeting Section */}
       <div>
         <h1 className="text-[28px] font-normal text-[#1f1f1f] tracking-tight">
           Welcome back, Kelvin
@@ -13,9 +97,7 @@ export default function DashboardHome() {
         </p>
       </div>
 
-      {/* Floating Metric Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Metric 1 */}
         <div className="bg-white rounded-3xl p-6 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#3186ff]/5 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500" />
           <div className="w-10 h-10 rounded-full bg-[#3186ff]/10 text-[#3186ff] flex items-center justify-center mb-4">
@@ -24,10 +106,11 @@ export default function DashboardHome() {
           <p className="text-sm font-medium text-[#444746]">
             Total Active Leads
           </p>
-          <h2 className="text-[32px] font-normal text-[#1f1f1f] mt-1">24</h2>
+          <h2 className="text-[32px] font-normal text-[#1f1f1f] mt-1">
+            {activeLeadsCount}
+          </h2>
         </div>
 
-        {/* Metric 2 */}
         <div className="bg-white rounded-3xl p-6 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#fed50d]/5 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500" />
           <div className="w-10 h-10 rounded-full bg-[#fed50d]/20 text-[#d97706] flex items-center justify-center mb-4">
@@ -36,21 +119,23 @@ export default function DashboardHome() {
           <p className="text-sm font-medium text-[#444746]">
             Pending Follow-ups
           </p>
-          <h2 className="text-[32px] font-normal text-[#1f1f1f] mt-1">7</h2>
+          <h2 className="text-[32px] font-normal text-[#1f1f1f] mt-1">
+            {pendingFollowUps}
+          </h2>
         </div>
 
-        {/* Metric 3 */}
         <div className="bg-white rounded-3xl p-6 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#0ebc5f]/5 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500" />
           <div className="w-10 h-10 rounded-full bg-[#0ebc5f]/10 text-[#0ebc5f] flex items-center justify-center mb-4">
             <CheckCircle2 className="w-5 h-5" strokeWidth={2.5} />
           </div>
           <p className="text-sm font-medium text-[#444746]">Deals Won</p>
-          <h2 className="text-[32px] font-normal text-[#1f1f1f] mt-1">12</h2>
+          <h2 className="text-[32px] font-normal text-[#1f1f1f] mt-1">
+            {dealsWonCount}
+          </h2>
         </div>
       </div>
 
-      {/* Main Content Area: Recent Leads Table */}
       <div className="bg-white rounded-[28px] p-2 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)]">
         <div className="px-6 py-5 flex items-center justify-between border-b border-[#e0e0e0]/60">
           <h3 className="text-[18px] font-medium text-[#1f1f1f]">
@@ -61,64 +146,62 @@ export default function DashboardHome() {
           </button>
         </div>
 
-        <div className="w-full overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="border-b border-[#e0e0e0]/60 text-sm font-medium text-[#444746]">
-                <th className="px-6 py-4 font-medium">Business Name</th>
-                <th className="px-6 py-4 font-medium">Region</th>
-                <th className="px-6 py-4 font-medium">Status</th>
-                <th className="px-6 py-4 font-medium text-right">Date Added</th>
-              </tr>
-            </thead>
-            <tbody className="text-sm">
-              {/* Table Row 1 */}
-              <tr className="hover:bg-[#f0f4f9]/50 transition-colors group cursor-pointer border-b border-[#e0e0e0]/40 last:border-0">
-                <td className="px-6 py-4 font-medium text-[#1f1f1f]">
-                  Alpha Tech Solutions
-                </td>
-                <td className="px-6 py-4 text-[#444746]">Nairobi CBD</td>
-                <td className="px-6 py-4">
-                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#3186ff]/10 text-[#3186ff] border border-[#3186ff]/20">
-                    Negotiating
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-[#444746] text-right">
-                  Today, 10:42 AM
-                </td>
-              </tr>
+        <div className="w-full overflow-x-auto min-h-50">
+          {leads.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12 text-[#747775]">
+              <Target className="w-10 h-10 mb-3 opacity-20" />
+              <p>No leads found. Add your first prospect to get started.</p>
+            </div>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-[#e0e0e0]/60 text-sm font-medium text-[#444746]">
+                  <th className="px-6 py-4 font-medium">Business Name</th>
+                  <th className="px-6 py-4 font-medium">Region</th>
+                  <th className="px-6 py-4 font-medium">Status</th>
+                  <th className="px-6 py-4 font-medium text-right">
+                    Date Added
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="text-sm">
+                {/* 5. 'lead' is now typed. If you type 'lead.', your editor will show all available fields */}
+                {leads.map((lead: Lead) => {
+                  const badge =
+                    statusConfig[lead.status] || statusConfig.not_contacted;
 
-              {/* Table Row 2 */}
-              <tr className="hover:bg-[#f0f4f9]/50 transition-colors group cursor-pointer border-b border-[#e0e0e0]/40 last:border-0">
-                <td className="px-6 py-4 font-medium text-[#1f1f1f]">
-                  Nyanza Logistics
-                </td>
-                <td className="px-6 py-4 text-[#444746]">Kisumu</td>
-                <td className="px-6 py-4">
-                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#fed50d]/20 text-[#d97706] border border-[#fed50d]/30">
-                    Follow-up
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-[#444746] text-right">
-                  Yesterday
-                </td>
-              </tr>
-
-              {/* Table Row 3 */}
-              <tr className="hover:bg-[#f0f4f9]/50 transition-colors group cursor-pointer last:border-0">
-                <td className="px-6 py-4 font-medium text-[#1f1f1f]">
-                  Lake Basin Retail
-                </td>
-                <td className="px-6 py-4 text-[#444746]">Kisumu</td>
-                <td className="px-6 py-4">
-                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#0ebc5f]/10 text-[#16a34a] border border-[#0ebc5f]/20">
-                    Won
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-[#444746] text-right">Jun 18</td>
-              </tr>
-            </tbody>
-          </table>
+                  return (
+                    <tr
+                      key={lead.id}
+                      className="hover:bg-[#f0f4f9]/50 transition-colors group cursor-pointer border-b border-[#e0e0e0]/40 last:border-0"
+                    >
+                      <td className="px-6 py-4 font-medium text-[#1f1f1f]">
+                        {lead.business_name}
+                        {lead.category && (
+                          <span className="block text-xs font-normal text-[#747775] mt-0.5">
+                            {lead.category}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-[#444746]">
+                        {lead.city_region}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${badge.colors}`}
+                        >
+                          {badge.label}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-[#444746] text-right">
+                        {formatDate(lead.created_at)}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>
