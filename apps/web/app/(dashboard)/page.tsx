@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import {
   ArrowUpRight,
   Clock,
@@ -54,6 +55,8 @@ const statusConfig: Record<LeadStatus, { label: string; colors: string }> = {
 };
 
 export default function DashboardHome() {
+  const router = useRouter();
+
   // 1. Fetch the active user to personalize the greeting
   const { data: user } = useQuery({
     queryKey: ["currentUser"],
@@ -190,7 +193,8 @@ export default function DashboardHome() {
                   return (
                     <tr
                       key={lead.id}
-                      className="hover:bg-[#f0f4f9]/50 transition-colors group cursor-pointer border-b border-[#e0e0e0]/40 last:border-0"
+                      onClick={() => router.push(`/leads/${lead.id}`)}
+                      className="hover:bg-[#f0f4f9] hover:shadow-sm transition-all duration-200 group cursor-pointer border-b border-[#e0e0e0]/40 last:border-0 relative z-0 hover:z-10"
                     >
                       {/* 2. Simplified Business Name */}
                       <td className="px-6 py-4 font-medium text-[#1f1f1f]">

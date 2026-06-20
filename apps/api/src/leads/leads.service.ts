@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { DatabaseService } from '../database.service';
 
 export interface CreateLeadDto {
@@ -73,6 +77,86 @@ export class LeadsService {
     } catch (error) {
       console.error('Database Fetch Error:', error);
       throw new InternalServerErrorException('Failed to retrieve leads');
+    }
+  }
+
+  async getLeadById(id: string): Promise<LeadRow> {
+    try {
+      const query = `SELECT * FROM leads WHERE id = $1;`;
+      const result = await this.db.query<LeadRow>(query, [id]);
+
+      if (result.rows.length === 0) {
+        throw new NotFoundException('Lead not found');
+      }
+
+      return result.rows[0];
+    } catch (error) {
+      console.error('Database Fetch Error:', error);
+      if (error instanceof NotFoundException) throw error;
+      throw new InternalServerErrorException('Failed to retrieve the lead');
+    }
+  }
+
+  async updateLead(
+    id: string,
+    data: Partial<CreateLeadDto> & { status?: string },
+  ): Promise<LeadRow> {
+    try {
+      // Using COALESCE allows us to only update fields that were actually provided in the request
+      const query = `
+        UPDATE leads 
+        SET 
+          business_name = COALESCE($1, business_name),
+          city_region = COALESCE($2, city_region),
+          category = COALESCE($3, category),
+          website_url = COALESCE($4, website_url),
+          email = COALESCE($5, email),
+          phone = COALESCE($6, phone),
+          key_issues_found = COALESCE($7, key_issues_found),
+          status = COALESCE($8, status),
+          updated_at = NOW()
+        WHERE id = $9
+        RETURNING *;
+      `;
+
+      const values = [
+        data.businessName ?? null,
+        data.region ?? null,
+        data.category ?? null,
+        data.website ?? null,
+        data.email ?? null,
+        data.phone ?? null,
+        data.issues ?? null,
+        data.status ?? null,
+        id,
+      ];
+
+      const result = await this.db.query<LeadRow>(query, values);
+
+      if (result.rows.length === 0) {
+        throw new NotFoundException('Lead not found');
+      }
+      return result.rows[0];
+    } catch (error) {
+      console.error('Database Update Error:', error);
+      if (error instanceof NotFoundException) throw error;
+      throw new InternalServerErrorException('Failed to update the lead');
+    }
+  }
+
+  async deleteLead(id: string): Promise<{ message: string }> {
+    try {
+      const query = `DELETE FROM leads WHERE id = $1 RETURNING id;`;
+      const result = await this.db.query(query, [id]);
+
+      if (result.rows.length === 0) {
+        throw new NotFoundException('Lead not found');
+      }
+      return { message: 'Lead successfully deleted' };
+    } catch (error) {
+      console.error('Database Delete Error:', error);
+      if (error instanceof NotFoundException) throw error;
+      throw new InternalServerErrorException('Failed to delete the lead');
     }
   }
 }
