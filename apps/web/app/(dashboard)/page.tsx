@@ -26,8 +26,6 @@ const formatDate = (dateString: string) => {
   }).format(new Date(dateString));
 };
 
-// 2. Strictly type the config. If you add a status to the backend later,
-// TypeScript will flag an error here until you add the colors for it!
 const statusConfig: Record<LeadStatus, { label: string; colors: string }> = {
   not_contacted: {
     label: "Not Contacted",
@@ -56,6 +54,25 @@ const statusConfig: Record<LeadStatus, { label: string; colors: string }> = {
 };
 
 export default function DashboardHome() {
+  // 1. Fetch the active user to personalize the greeting
+  const { data: user } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: async () => {
+      const token = getAuthToken();
+      if (!token) return null;
+      const res = await fetch("http://localhost:3001/auth/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.ok ? res.json() : null;
+    },
+  });
+
+  // 2. Format the email into a capitalized first name (e.g., kelvin@... -> Kelvin)
+  const displayName = user?.email
+    ? user.email.split("@")[0].charAt(0).toUpperCase() +
+      user.email.split("@")[0].slice(1)
+    : "User";
+
   // 3. Define the expected return type for TanStack Query
   const { data: leads = [], isLoading } = useQuery<Lead[]>({
     queryKey: ["leads"],
@@ -69,7 +86,6 @@ export default function DashboardHome() {
     },
   });
 
-  // 4. No more 'any'! We explicitly tell the filter functions what 'l' is.
   const activeLeadsCount = leads.filter(
     (l: Lead) => l.status !== "won" && l.status !== "lost",
   ).length;
@@ -90,7 +106,7 @@ export default function DashboardHome() {
     <div className="max-w-300 mx-auto w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
       <div>
         <h1 className="text-[28px] font-normal text-[#1f1f1f] tracking-tight">
-          Welcome back, Kelvin
+          Welcome back, {displayName}
         </h1>
         <p className="text-base text-[#444746] mt-1">
           Here is what is happening with your outreach today.
@@ -165,7 +181,6 @@ export default function DashboardHome() {
                 </tr>
               </thead>
               <tbody className="text-sm">
-                {/* 5. 'lead' is now typed. If you type 'lead.', your editor will show all available fields */}
                 {leads.map((lead: Lead) => {
                   const badge =
                     statusConfig[lead.status] || statusConfig.not_contacted;

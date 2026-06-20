@@ -8,6 +8,7 @@ import {
   Plus,
 } from "lucide-react";
 import Link from "next/link";
+import { HeaderActions } from "@/components/layout/header-actions";
 import { NewLeadPanel } from "@/components/leads/new-lead-panel";
 
 export default function DashboardLayout({
@@ -102,14 +103,7 @@ export default function DashboardLayout({
           </div>
 
           {/* User Actions */}
-          <div className="flex items-center gap-4">
-            <button className="p-2 text-[#444746] hover:bg-[#f0f4f9] rounded-full transition-colors">
-              <Bell className="w-5 h-5" />
-            </button>
-            <button className="w-9 h-9 rounded-full bg-[#3186ff] text-white flex items-center justify-center font-medium shadow-sm hover:shadow-md transition-all">
-              K
-            </button>
-          </div>
+          <HeaderActions />
         </header>
 
         {/* The Dashboard Page Content is injected here */}
