@@ -42,22 +42,27 @@ const statusConfig: Record<LeadStatus, { label: string; colors: string }> = {
     label: "Not Contacted",
     colors: "bg-[#f0f4f9] text-[#444746] border-[#e0e0e0]",
   },
+
   contacted: {
     label: "Contacted",
     colors: "bg-[#3186ff]/10 text-[#3186ff] border-[#3186ff]/20",
   },
+
   follow_up_scheduled: {
     label: "Follow-up",
     colors: "bg-[#fed50d]/20 text-[#d97706] border-[#fed50d]/30",
   },
+
   negotiating: {
     label: "Negotiating",
     colors: "bg-[#3186ff]/10 text-[#3186ff] border-[#3186ff]/20",
   },
+
   won: {
     label: "Won",
     colors: "bg-[#0ebc5f]/10 text-[#16a34a] border-[#0ebc5f]/20",
   },
+
   lost: {
     label: "Lost",
     colors: "bg-[#ea4335]/10 text-[#dc2626] border-[#ea4335]/20",
@@ -159,6 +164,13 @@ export default function LeadDetailsPage() {
 
   const badge = statusConfig[lead.status] || statusConfig.not_contacted;
 
+  function formatStatus(text: string) {
+    return text
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  }
+
   return (
     <div className="max-w-250 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out pb-12">
       {/* 1. Top Navigation & Actions */}
@@ -219,7 +231,7 @@ export default function LeadDetailsPage() {
             <span
               className={`inline-flex items-center px-3.5 py-1.5 rounded-full text-sm font-medium border ${badge.colors}`}
             >
-              {badge.label}
+              {formatStatus(lead.status)}
             </span>
             <span className="flex items-center gap-1.5 text-xs text-[#747775]">
               <Calendar className="w-3.5 h-3.5" /> Added{" "}
