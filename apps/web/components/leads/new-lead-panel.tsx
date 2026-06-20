@@ -76,9 +76,13 @@ export function NewLeadPanel() {
       closePanel();
 
       router.refresh();
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred.";
       toast.error("Operation Failed", {
-        description: error.message,
+        description: errorMessage,
       });
     } finally {
       setIsLoading(false);
@@ -133,6 +137,7 @@ export function NewLeadPanel() {
               <input
                 type="text"
                 id="businessName"
+                name="businessName"
                 className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer disabled:opacity-50"
                 placeholder=" "
                 required
@@ -151,6 +156,7 @@ export function NewLeadPanel() {
                 <input
                   type="text"
                   id="region"
+                  name="region"
                   className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer disabled:opacity-50"
                   placeholder=" "
                   required
@@ -191,6 +197,7 @@ export function NewLeadPanel() {
                 <input
                   type="url"
                   id="website"
+                  name="website"
                   className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer disabled:opacity-50"
                   placeholder=" "
                 />
@@ -207,6 +214,7 @@ export function NewLeadPanel() {
                   <input
                     type="email"
                     id="email"
+                    name="email"
                     className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer disabled:opacity-50"
                     placeholder=" "
                   />
@@ -221,6 +229,7 @@ export function NewLeadPanel() {
                   <input
                     type="tel"
                     id="phone"
+                    name="phone"
                     className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer disabled:opacity-50"
                     placeholder=" "
                   />
@@ -240,6 +249,7 @@ export function NewLeadPanel() {
             <div className="relative group">
               <textarea
                 id="issues"
+                name="issues"
                 rows={4}
                 className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer disabled:opacity-50 resize-none"
                 placeholder=" "
