@@ -173,6 +173,8 @@ export default function DashboardHome() {
               <thead>
                 <tr className="border-b border-[#e0e0e0]/60 text-sm font-medium text-[#444746]">
                   <th className="px-6 py-4 font-medium">Business Name</th>
+                  {/* 1. Added Category Column */}
+                  <th className="px-6 py-4 font-medium">Category</th>
                   <th className="px-6 py-4 font-medium">Region</th>
                   <th className="px-6 py-4 font-medium">Status</th>
                   <th className="px-6 py-4 font-medium text-right">
@@ -190,14 +192,16 @@ export default function DashboardHome() {
                       key={lead.id}
                       className="hover:bg-[#f0f4f9]/50 transition-colors group cursor-pointer border-b border-[#e0e0e0]/40 last:border-0"
                     >
+                      {/* 2. Simplified Business Name */}
                       <td className="px-6 py-4 font-medium text-[#1f1f1f]">
                         {lead.business_name}
-                        {lead.category && (
-                          <span className="block text-xs font-normal text-[#747775] mt-0.5">
-                            {lead.category}
-                          </span>
-                        )}
                       </td>
+
+                      {/* 3. New Category Cell with string formatting */}
+                      <td className="px-6 py-4 text-[#444746] capitalize">
+                        {lead.category?.replace("_", " ") || "-"}
+                      </td>
+
                       <td className="px-6 py-4 text-[#444746]">
                         {lead.city_region}
                       </td>
