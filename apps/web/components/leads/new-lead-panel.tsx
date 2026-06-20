@@ -24,7 +24,6 @@ export function NewLeadPanel() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Manage animation states so the panel doesn't just vanish instantly
   useEffect(() => {
     if (isOpen) {
       setIsAnimating(true);
@@ -35,7 +34,6 @@ export function NewLeadPanel() {
   }, [isOpen]);
 
   const closePanel = () => {
-    // Navigating to the current pathname clears the query parameters
     router.push(pathname, { scroll: false });
   };
 
@@ -43,7 +41,7 @@ export function NewLeadPanel() {
     e.preventDefault();
     setIsLoading(true);
 
-    // TODO: We will wire this to the NestJS backend in the next step.
+    // TODO: To be wired to the NestJS backend in the next step.
     // For now, we simulate a network request.
     setTimeout(() => {
       setIsLoading(false);
@@ -69,7 +67,7 @@ export function NewLeadPanel() {
 
       {/* 2. Sliding Panel */}
       <div
-        className={`absolute inset-y-0 right-0 w-full max-w-[520px] bg-white shadow-[0_24px_80px_rgba(0,0,0,0.12)] flex flex-col transition-transform duration-300 ease-out pointer-events-auto
+        className={`absolute inset-y-0 right-0 w-full max-w-130 bg-white shadow-[0_24px_80px_rgba(0,0,0,0.12)] flex flex-col transition-transform duration-300 ease-out pointer-events-auto
           ${isOpen ? "translate-x-0" : "translate-x-full"}
         `}
       >
@@ -109,7 +107,7 @@ export function NewLeadPanel() {
               />
               <label
                 htmlFor="businessName"
-                className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-[0] left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
+                className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
               >
                 <Building2 className="w-4 h-4" /> Business Name
               </label>
@@ -127,7 +125,7 @@ export function NewLeadPanel() {
                 />
                 <label
                   htmlFor="region"
-                  className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-[0] left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
+                  className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
                 >
                   <MapPin className="w-4 h-4" /> City / Region
                 </label>
@@ -149,7 +147,7 @@ export function NewLeadPanel() {
                 </select>
                 <label
                   htmlFor="category"
-                  className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-[0] left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-pointer"
+                  className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-pointer"
                 >
                   Category
                 </label>
@@ -169,7 +167,7 @@ export function NewLeadPanel() {
                 />
                 <label
                   htmlFor="website"
-                  className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-[0] left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
+                  className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
                 >
                   <Globe className="w-4 h-4" /> Website URL
                 </label>
@@ -185,7 +183,7 @@ export function NewLeadPanel() {
                   />
                   <label
                     htmlFor="email"
-                    className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-[0] left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
+                    className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
                   >
                     <Mail className="w-4 h-4" /> Email Address
                   </label>
@@ -199,7 +197,7 @@ export function NewLeadPanel() {
                   />
                   <label
                     htmlFor="phone"
-                    className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-[0] left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
+                    className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
                   >
                     <Phone className="w-4 h-4" /> Phone Number
                   </label>
@@ -220,7 +218,7 @@ export function NewLeadPanel() {
               />
               <label
                 htmlFor="issues"
-                className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-[0] left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-6 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
+                className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-6 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 peer-focus:text-[#3186ff] cursor-text flex items-center gap-1.5"
               >
                 <Target className="w-4 h-4" /> Key Issues Found (Why target
                 them?)
@@ -243,7 +241,7 @@ export function NewLeadPanel() {
             type="submit"
             form="new-lead-form"
             disabled={isLoading}
-            className="flex items-center justify-center gap-2 px-6 py-2.5 text-[14px] font-medium bg-[#3186ff] text-white rounded-xl shadow-sm hover:bg-[#2872dd] hover:shadow-md transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed min-w-[120px]"
+            className="flex items-center justify-center gap-2 px-6 py-2.5 text-[14px] font-medium bg-[#3186ff] text-white rounded-xl shadow-sm hover:bg-[#2872dd] hover:shadow-md transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed min-w-30"
           >
             {isLoading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
