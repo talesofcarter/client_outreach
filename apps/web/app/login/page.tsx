@@ -1,15 +1,62 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react";
+import { toast } from "@/lib/toast";
 
 export default function LoginPage() {
+  const router = useRouter();
+
+  // Form State
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  // Request State
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:3001/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Invalid credentials");
+      }
+
+      document.cookie = `tracker_token=${data.access_token}; path=/; max-age=86400; SameSite=Strict`;
+
+      toast.success("Authentication successful", {
+        description: `Welcome back, ${data.user.name.split(" ")[0]}!`,
+      });
+
+      router.push("/");
+    } catch (err: any) {
+      setError(err.message);
+      toast.error("Login Failed", {
+        description: err.message,
+      });
+      console.log("Login error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f0f4f9] p-4">
-      {/* The Wide-Format Card */}
       <div className="w-full max-w-260 bg-white rounded-[28px] p-9 sm:p-12 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] flex flex-col md:flex-row gap-10 md:gap-20">
+        {/* Left Column: Branding */}
         <div className="flex-1 flex flex-col justify-start">
           <div className="flex gap-1.5 mb-10">
             <div className="w-3.5 h-10 rounded-full bg-[#3186ff]" />
@@ -25,14 +72,18 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Right Column: Interactive Form & Actions */}
+        {/* Right Column: Form */}
         <div className="flex-1 flex flex-col justify-between pt-2">
-          <form className="space-y-6">
+          {/* Changed from a standard div/form to use onSubmit */}
+          <form onSubmit={handleLogin} className="space-y-6">
             <div className="relative group">
               <input
                 type="email"
                 id="email"
-                className="block px-4 pb-2.5 pt-6 w-full text-base text-[#1f1f1f] bg-transparent rounded-md border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isLoading}
+                className="block px-4 pb-2.5 pt-6 w-full text-base text-[#1f1f1f] bg-transparent rounded-md border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer disabled:opacity-50"
                 placeholder=" "
                 required
               />
@@ -44,12 +95,14 @@ export default function LoginPage() {
               </label>
             </div>
 
-            {/* Elite Input */}
             <div className="relative group">
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                className="block px-4 pb-2.5 pt-6 w-full text-base text-[#1f1f1f] bg-transparent rounded-md border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer pr-12"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={isLoading}
+                className="block px-4 pb-2.5 pt-6 w-full text-base text-[#1f1f1f] bg-transparent rounded-md border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] peer pr-12 disabled:opacity-50"
                 placeholder=" "
                 required
               />
@@ -63,8 +116,8 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#444746] hover:text-[#1f1f1f] transition-colors focus:outline-none z-20"
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                disabled={isLoading}
+                className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#444746] hover:text-[#1f1f1f] transition-colors focus:outline-none z-20 disabled:opacity-50"
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -73,25 +126,32 @@ export default function LoginPage() {
                 )}
               </button>
             </div>
+
+            {/* Action Area */}
+            <div className="flex items-center justify-between mt-16 md:mt-24">
+              <button
+                type="button"
+                className="relative text-sm font-medium text-[#444746] hover:text-[#1f1f1f] transition-colors py-1 group"
+              >
+                Forgot password?
+              </button>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="group flex items-center justify-center gap-2 bg-[#3186ff] text-white px-7 py-3 rounded-xl text-sm font-medium shadow-sm hover:bg-[#2872dd] hover:shadow-[0_8px_20px_-6px_rgba(49,134,255,0.5)] active:scale-[0.97] transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed min-w-27.5"
+              >
+                {isLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <>
+                    Next
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+                  </>
+                )}
+              </button>
+            </div>
           </form>
-
-          <div className="flex items-center justify-between mt-16 md:mt-24">
-            <button
-              type="button"
-              className="relative text-sm font-medium text-[#444746] hover:text-[#3186ff] transition-colors py-1 group"
-            >
-              Forgot password?
-            </button>
-
-            {/* Tactile, Premium Primary Button */}
-            <button
-              type="button"
-              className="group flex items-center gap-2 bg-[#3186ff] text-white px-7 py-3 rounded-xl text-sm font-medium shadow-sm hover:bg-[#2872dd] active:scale-[0.97] transition-all duration-200"
-            >
-              Next
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
-            </button>
-          </div>
         </div>
       </div>
     </div>
