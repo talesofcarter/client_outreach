@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get } from '@nestjs/common';
 import { LeadsService, type CreateLeadDto } from './leads.service';
 import { AuthGuard } from '../auth/auth.guard';
 
@@ -10,5 +10,10 @@ export class LeadsController {
   @Post()
   create(@Body() leadData: CreateLeadDto) {
     return this.leadsService.createLead(leadData);
+  }
+
+  @Get()
+  findAll() {
+    return this.leadsService.getLeads();
   }
 }

@@ -64,4 +64,15 @@ export class LeadsService {
       );
     }
   }
+
+  async getLeads(): Promise<LeadRow[]> {
+    try {
+      const query = `SELECT * FROM leads ORDER BY created_at DESC;`;
+      const result = await this.db.query<LeadRow>(query);
+      return result.rows;
+    } catch (error) {
+      console.error('Database Fetch Error:', error);
+      throw new InternalServerErrorException('Failed to retrieve leads');
+    }
+  }
 }
