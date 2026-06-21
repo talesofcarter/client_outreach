@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
-  Briefcase,
+  ChartPie,
   Settings,
   Plus,
   Menu,
@@ -132,20 +132,20 @@ export function Sidebar() {
           </Link>
 
           <Link
-            href="/projects"
+            href="/analytics"
             title={!isExpanded ? "Projects" : undefined}
             className={`flex items-center rounded-full font-medium transition-all duration-200 overflow-hidden group
               ${isActive("/projects") ? "bg-[#c2e7ff]/40 text-[#001d35]" : "text-[#444746] hover:bg-[#e9eef6]"}
               ${isExpanded ? "gap-3 px-4 py-3" : "justify-center w-12 h-12 mx-auto"}
             `}
           >
-            <Briefcase
+            <ChartPie
               className={`w-5 h-5 shrink-0 ${isActive("/projects") ? "text-[#001d35]" : "text-[#444746] group-hover:text-[#1f1f1f]"}`}
             />
             <span
               className={`whitespace-nowrap transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0 hidden"}`}
             >
-              Projects
+              Analytics
             </span>
           </Link>
         </nav>

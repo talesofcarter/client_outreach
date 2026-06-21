@@ -9,7 +9,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen bg-[#f8fafd] overflow-hidden font-sans text-[#1f1f1f]">
+    <div className="flex h-screen bg-[#f8fafd] overflow-hidden text-[#1f1f1f]">
       <Sidebar />
 
       {/* 2. Main Content Wrapper */}
