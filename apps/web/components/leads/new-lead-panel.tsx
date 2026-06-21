@@ -25,10 +25,12 @@ export function NewLeadPanel() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  if (isOpen && !isAnimating) {
+    setIsAnimating(true);
+  }
+
   useEffect(() => {
-    if (isOpen) {
-      setIsAnimating(true);
-    } else {
+    if (!isOpen) {
       const timer = setTimeout(() => setIsAnimating(false), 300);
       return () => clearTimeout(timer);
     }

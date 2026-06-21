@@ -2,21 +2,24 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   LayoutDashboard,
   Users,
-  ChartPie,
-  Settings,
   Plus,
   Menu,
+  BarChart3,
+  LogOut,
 } from "lucide-react";
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const [isExpanded, setIsExpanded] = useState(true);
 
-  // 1. Responsive Auto-Retract Logic
+  // Responsive Auto-Retract Logic
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
@@ -27,15 +30,27 @@ export function Sidebar() {
     };
 
     handleResize();
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // 2. Active Route Verification
+  // Active Route Verification
   const isActive = (path: string) => {
     if (path === "/") return pathname === "/";
     return pathname.startsWith(path);
+  };
+
+  // Secure Logout Handler
+  const handleLogout = () => {
+    // 1. Destroy the secure cookie
+    document.cookie =
+      "tracker_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    // 2. Purge all cached data from the browser's memory
+    queryClient.clear();
+
+    // 3. Kick the user back to the login screen
+    router.push("/login");
   };
 
   return (
@@ -71,7 +86,7 @@ export function Sidebar() {
           </button>
         </div>
 
-        {/* Primary Action */}
+        {/* Primary Action (New Lead FAB) */}
         <div className={`mb-6 flex ${isExpanded ? "px-2" : "justify-center"}`}>
           <Link
             href="?action=new-lead"
@@ -133,14 +148,14 @@ export function Sidebar() {
 
           <Link
             href="/analytics"
-            title={!isExpanded ? "Projects" : undefined}
+            title={!isExpanded ? "Analytics" : undefined}
             className={`flex items-center rounded-full font-medium transition-all duration-200 overflow-hidden group
-              ${isActive("/projects") ? "bg-[#c2e7ff]/40 text-[#001d35]" : "text-[#444746] hover:bg-[#e9eef6]"}
+              ${isActive("/analytics") ? "bg-[#c2e7ff]/40 text-[#001d35]" : "text-[#444746] hover:bg-[#e9eef6]"}
               ${isExpanded ? "gap-3 px-4 py-3" : "justify-center w-12 h-12 mx-auto"}
             `}
           >
-            <ChartPie
-              className={`w-5 h-5 shrink-0 ${isActive("/projects") ? "text-[#001d35]" : "text-[#444746] group-hover:text-[#1f1f1f]"}`}
+            <BarChart3
+              className={`w-5 h-5 shrink-0 ${isActive("/analytics") ? "text-[#001d35]" : "text-[#444746] group-hover:text-[#1f1f1f]"}`}
             />
             <span
               className={`whitespace-nowrap transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0 hidden"}`}
@@ -151,25 +166,22 @@ export function Sidebar() {
         </nav>
       </div>
 
-      {/* Bottom Settings */}
+      {/* Bottom Sign Out Button */}
       <div className="px-2">
-        <Link
-          href="/settings"
-          title={!isExpanded ? "Settings" : undefined}
-          className={`flex items-center rounded-full font-medium transition-all duration-200 overflow-hidden group
-            ${isActive("/settings") ? "bg-[#c2e7ff]/40 text-[#001d35]" : "text-[#444746] hover:bg-[#e9eef6]"}
-            ${isExpanded ? "gap-3 px-4 py-3" : "justify-center w-12 h-12 mx-auto"}
+        <button
+          onClick={handleLogout}
+          title={!isExpanded ? "Sign out" : undefined}
+          className={`flex items-center rounded-full font-medium transition-all duration-200 overflow-hidden group text-[#ea4335] hover:bg-[#fef2f2]
+            ${isExpanded ? "gap-3 px-4 py-3 w-full" : "justify-center w-12 h-12 mx-auto"}
           `}
         >
-          <Settings
-            className={`w-5 h-5 shrink-0 ${isActive("/settings") ? "text-[#001d35]" : "text-[#444746] group-hover:text-[#1f1f1f]"}`}
-          />
+          <LogOut className="w-5 h-5 shrink-0" />
           <span
             className={`whitespace-nowrap transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0 hidden"}`}
           >
-            Settings
+            Sign out
           </span>
-        </Link>
+        </button>
       </div>
     </aside>
   );
