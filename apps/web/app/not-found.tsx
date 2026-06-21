@@ -5,7 +5,7 @@ import { ArrowLeft, Compass } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#f8fafd] flex flex-col items-center justify-center p-6 font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-[#f8fafd] flex flex-col items-center justify-center p-6 relative overflow-hidden">
       {/* Subtle Premium Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-[#3186ff] opacity-[0.04] blur-[100px] rounded-full pointer-events-none" />
 

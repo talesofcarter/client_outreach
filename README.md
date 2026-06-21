@@ -117,3 +117,13 @@ client_outreach/
 ```
 
 ## 📡 Core API Endpoints
+
+| Method | Endpoint      | Description                                     | Auth Required |
+| ------ | ------------- | ----------------------------------------------- | ------------- |
+| POST   | `/auth/login` | Authenticates user and returns JWT              | No            |
+| GET    | `/auth/me`    | Returns current active user profile             | Yes           |
+| GET    | `/leads`      | Fetches all pipeline leads                      | Yes           |
+| GET    | `/leads/:id`  | Fetches comprehensive details for a single lead | Yes           |
+| POST   | `/leads`      | Creates a new outreach lead                     | Yes           |
+| PATCH  | `/leads/:id`  | Updates lead status or data                     | Yes           |
+| DELETE | `/leads/:id`  | Permanently removes a lead                      | Yes           |
