@@ -10,6 +10,7 @@ import {
   Target,
 } from "lucide-react";
 import { Lead, LeadStatus } from "@/types";
+import { formatStatus } from "@/lib/formatStatus";
 
 const getAuthToken = () => {
   if (typeof document === "undefined") return null;
@@ -213,7 +214,7 @@ export default function DashboardHome() {
                         <span
                           className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${badge.colors}`}
                         >
-                          {badge.label}
+                          {formatStatus(lead.status)}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-[#444746] text-right">

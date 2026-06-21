@@ -20,6 +20,7 @@ import {
 import { toast } from "@/lib/toast";
 import { Lead, LeadStatus } from "@/types";
 import { EditLeadPanel } from "@/components/leads/edit-lead-panel";
+import { formatStatus } from "@/lib/formatStatus";
 
 const getAuthToken = () => {
   if (typeof document === "undefined") return null;
@@ -163,13 +164,6 @@ export default function LeadDetailsPage() {
   }
 
   const badge = statusConfig[lead.status] || statusConfig.not_contacted;
-
-  function formatStatus(text: string) {
-    return text
-      .split("_")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-  }
 
   return (
     <div className="max-w-250 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out pb-12">
