@@ -54,7 +54,66 @@ Tracker is built on strict UI/UX principles:
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone [https://github.com/yourusername/tracker-crm.git](https://github.com/yourusername/tracker-crm.git)
    cd tracker-crm
    ```
+
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Database Setup**
+
+   Create a PostgreSQL database and execute the schema creation script to generate the `leads` and `users` tables.
+
+4. **Environment Variables**
+   Create `.env` files in both the API and Web directories:
+
+   `apps/api/.env`
+
+   ````bash
+   DATABASE_URL=postgresql://user:password@localhost:5432/tracker_db
+   JWT_SECRET=your_super_secret_jwt_key
+   PORT=3001```
+   ````
+
+   `apps/web/.env.local`
+
+   ```bash
+   NEXT_PUBLIC_API_URL=http://localhost:3001
+   ```
+
+5. **Start the Development Servers**
+
+   ```bash
+   # Starts both Next.js and NestJS concurrently
+   pnpm dev
+   ```
+
+   - The web application will be available at `http://localhost:3000`
+   - The API will be available at `http://localhost:3001`
+
+## 📂 Architecture & Project Structure
+
+```
+client_outreach/
+├── apps/
+│   ├── api/                  # NestJS Backend
+│   │   ├── src/
+│   │   │   ├── auth/         # JWT Generation & Guards
+│   │   │   ├── leads/        # PostgreSQL CRUD operations
+│   │   │   └── main.ts
+│   └── web/                  # Next.js Frontend
+│       ├── src/
+│       │   ├── app/          # App Router Pages & Layouts
+│       │   ├── components/   # Modular UI (Sidebar, Panels)
+│       │   ├── lib/          # Utilities (Toast, Fetchers)
+│       │   └── types/        # Centralized TypeScript Interfaces
+└── package.json
+```
+
+## 📡 Core API Endpoints

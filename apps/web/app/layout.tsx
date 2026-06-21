@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Mona_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/Toaster";
 import { Providers } from "./providers";
 
-const monaSans = Mona_Sans({
-  variable: "--font-mona-sans",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
 });
 
@@ -20,7 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${monaSans.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${plusJakartaSans.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">
         <Providers>{children}</Providers>
         <Toaster />
