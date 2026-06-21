@@ -42,10 +42,13 @@ export default function LoginPage() {
       });
 
       router.push("/");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "An unexpected error occurred.";
+
+      setError(errorMessage);
       toast.error("Login Failed", {
-        description: err.message,
+        description: errorMessage,
       });
       console.log("Login error:", error);
     } finally {

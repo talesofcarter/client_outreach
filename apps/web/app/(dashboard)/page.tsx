@@ -176,12 +176,14 @@ export default function DashboardHome() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-[#e0e0e0]/60 text-sm font-medium text-[#444746]">
-                  <th className="px-6 py-4 font-medium">Business Name</th>
+                  <th className="px-6 py-4 font-medium uppercase">
+                    Business Name
+                  </th>
                   {/* 1. Added Category Column */}
-                  <th className="px-6 py-4 font-medium">Category</th>
-                  <th className="px-6 py-4 font-medium">Region</th>
-                  <th className="px-6 py-4 font-medium">Status</th>
-                  <th className="px-6 py-4 font-medium text-right">
+                  <th className="px-6 py-4 font-medium uppercase">Category</th>
+                  <th className="px-6 py-4 font-medium uppercase">Region</th>
+                  <th className="px-6 py-4 font-medium uppercase">Status</th>
+                  <th className="px-6 py-4 font-medium text-right uppercase">
                     Date Added
                   </th>
                 </tr>
