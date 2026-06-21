@@ -16,6 +16,7 @@ import {
 } from "recharts";
 import { Loader2, Target, Award, BarChart3 } from "lucide-react";
 import { Lead, LeadStatus } from "@/types";
+import { apiUrl } from "@/lib/api";
 
 interface TooltipPayloadItem {
   name: string;
@@ -90,7 +91,7 @@ export default function AnalyticsPage() {
     queryKey: ["leads"],
     queryFn: async () => {
       const token = getAuthToken();
-      const res = await fetch("http://localhost:3001/leads", {
+      const res = await fetch(`${apiUrl}/leads`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch leads");

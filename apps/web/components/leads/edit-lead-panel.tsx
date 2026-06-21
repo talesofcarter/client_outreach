@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { toast } from "@/lib/toast";
 import { Lead } from "@/types";
+import { apiUrl } from "@/lib/api";
 
 export function EditLeadPanel({ lead }: { lead: Lead }) {
   const router = useRouter();
@@ -56,7 +57,7 @@ export function EditLeadPanel({ lead }: { lead: Lead }) {
       ?.split("=")[1];
 
     try {
-      const response = await fetch(`http://localhost:3001/leads/${lead.id}`, {
+      const response = await fetch(`${apiUrl}/leads/${lead.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

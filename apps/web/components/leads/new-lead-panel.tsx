@@ -14,6 +14,7 @@ import {
   Tag,
 } from "lucide-react";
 import { toast } from "@/lib/toast";
+import { apiUrl } from "@/lib/api";
 
 export function NewLeadPanel() {
   const router = useRouter();
@@ -56,7 +57,7 @@ export function NewLeadPanel() {
 
     try {
       // 3. Send the secure request to NestJS
-      const response = await fetch("http://localhost:3001/leads", {
+      const response = await fetch(`${apiUrl}/leads`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

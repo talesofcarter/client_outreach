@@ -21,6 +21,7 @@ import { toast } from "@/lib/toast";
 import { Lead, LeadStatus } from "@/types";
 import { EditLeadPanel } from "@/components/leads/edit-lead-panel";
 import { formatStatus } from "@/lib/formatStatus";
+import { apiUrl } from "@/lib/api";
 
 const getAuthToken = () => {
   if (typeof document === "undefined") return null;
@@ -89,7 +90,7 @@ export default function LeadDetailsPage() {
     queryKey: ["lead", leadId],
     queryFn: async () => {
       const token = getAuthToken();
-      const res = await fetch(`http://localhost:3001/leads/${leadId}`, {
+      const res = await fetch(`${apiUrl}/leads/${leadId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch lead details");
@@ -100,7 +101,7 @@ export default function LeadDetailsPage() {
   const deleteMutation = useMutation({
     mutationFn: async () => {
       const token = getAuthToken();
-      const res = await fetch(`http://localhost:3001/leads/${leadId}`, {
+      const res = await fetch(`${apiUrl}/leads/${leadId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

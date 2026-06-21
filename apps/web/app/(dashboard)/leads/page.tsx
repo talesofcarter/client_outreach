@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Lead, LeadStatus } from "@/types";
 import { formatStatus } from "@/lib/formatStatus";
+import { apiUrl } from "@/lib/api";
 
 const getAuthToken = () => {
   if (typeof document === "undefined") return null;
@@ -79,7 +80,7 @@ export default function LeadsDirectoryPage() {
     queryKey: ["leads"],
     queryFn: async () => {
       const token = getAuthToken();
-      const res = await fetch("http://localhost:3001/leads", {
+      const res = await fetch(`${apiUrl}/leads`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch leads");

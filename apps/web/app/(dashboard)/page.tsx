@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Lead, LeadStatus } from "@/types";
 import { formatStatus } from "@/lib/formatStatus";
+import { apiUrl } from "@/lib/api";
 
 const getAuthToken = () => {
   if (typeof document === "undefined") return null;
@@ -64,7 +65,8 @@ export default function DashboardHome() {
     queryFn: async () => {
       const token = getAuthToken();
       if (!token) return null;
-      const res = await fetch("http://localhost:3001/auth/me", {
+
+      const res = await fetch(`${apiUrl}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.ok ? res.json() : null;
@@ -82,7 +84,7 @@ export default function DashboardHome() {
     queryKey: ["leads"],
     queryFn: async () => {
       const token = getAuthToken();
-      const res = await fetch("http://localhost:3001/leads", {
+      const res = await fetch(`${apiUrl}/leads`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch leads");

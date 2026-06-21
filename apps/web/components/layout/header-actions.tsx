@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bell, LogOut, Loader2 } from "lucide-react";
+import { apiUrl } from "@/lib/api";
 
 const getAuthToken = () => {
   if (typeof document === "undefined") return null;
@@ -23,7 +24,7 @@ export function HeaderActions() {
       const token = getAuthToken();
       if (!token) throw new Error("No token found");
 
-      const res = await fetch("http://localhost:3001/auth/me", {
+      const res = await fetch(`${apiUrl}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Not authenticated");
@@ -44,7 +45,7 @@ export function HeaderActions() {
     router.push("/login");
   };
 
-  // Derive the initial from the email (e.g., kelvin@... -> K)
+  // Derive the initial from the email
   const userInitial = user?.email ? user.email.charAt(0).toUpperCase() : "";
 
   return (
