@@ -75,6 +75,7 @@ export default function DashboardHome() {
 
   // 2. Format the email into a capitalized first name (e.g., kelvin@... -> Kelvin)
   const displayName = user?.name;
+  console.log(displayName);
 
   // 3. Define the expected return type for TanStack Query
   const { data: leads = [], isLoading } = useQuery<Lead[]>({

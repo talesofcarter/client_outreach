@@ -49,7 +49,14 @@ function EditLeadPanelContent({ lead }: { lead: Lead }) {
     setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const updateData = Object.fromEntries(formData.entries());
+    const rawUpdateData = Object.fromEntries(formData.entries());
+
+    const updateData = {
+      ...rawUpdateData,
+      email: rawUpdateData.email?.toString().trim() || null,
+      phone: rawUpdateData.phone?.toString().trim() || null,
+      website: rawUpdateData.website?.toString().trim() || null,
+    };
 
     const token = document.cookie
       .split("; ")

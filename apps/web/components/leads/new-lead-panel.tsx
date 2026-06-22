@@ -45,7 +45,15 @@ function NewLeadPanelContent() {
     setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const leadData = Object.fromEntries(formData.entries());
+    const rawData = Object.fromEntries(formData.entries());
+
+    // 1. Clean the payload
+    const leadData = {
+      ...rawData,
+      email: rawData.email?.toString().trim() || null,
+      phone: rawData.phone?.toString().trim() || null,
+      website: rawData.website?.toString().trim() || null,
+    };
 
     const token = document.cookie
       .split("; ")

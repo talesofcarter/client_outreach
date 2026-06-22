@@ -299,10 +299,7 @@ export default function LeadDetailsPage() {
                     Email Address
                   </p>
                   {lead.email ? (
-                    <a
-                      href={`mailto:${lead.email}`}
-                      className="text-[14px] text-[#1f1f1f] hover:text-[#3186ff] transition-colors break-all"
-                    >
+                    <a className="text-[14px] text-[#1f1f1f] hover:text-[#3186ff] transition-colors break-all">
                       {lead.email}
                     </a>
                   ) : (
@@ -320,10 +317,7 @@ export default function LeadDetailsPage() {
                     Phone Number
                   </p>
                   {lead.phone ? (
-                    <a
-                      href={`tel:${lead.phone}`}
-                      className="text-[14px] text-[#1f1f1f] hover:text-[#3186ff] transition-colors"
-                    >
+                    <a className="text-[14px] text-[#1f1f1f] hover:text-[#3186ff] transition-colors">
                       {lead.phone}
                     </a>
                   ) : (
