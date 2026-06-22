@@ -74,12 +74,7 @@ export default function DashboardHome() {
   });
 
   // 2. Format the email into a capitalized first name (e.g., kelvin@... -> Kelvin)
-  const displayName =
-    user?.name ||
-    (user?.email
-      ? user.email.split("@")[0].charAt(0).toUpperCase() +
-        user.email.split("@")[0].slice(1)
-      : "User");
+  const displayName = user?.name;
 
   // 3. Define the expected return type for TanStack Query
   const { data: leads = [], isLoading } = useQuery<Lead[]>({
@@ -117,9 +112,7 @@ export default function DashboardHome() {
           Welcome back, {displayName}
         </h1>
         <p className="text-base text-[#444746] mt-1">
-          A snapshot of your daily outreach metrics, status updates, and
-          pipeline trajectory. This summary provides a clear overview of current
-          engagement and the progression of your active leads for the day.
+          Daily Outreach Metrics, Status Updates & Pipeline Trajectory
         </p>
       </div>
 
