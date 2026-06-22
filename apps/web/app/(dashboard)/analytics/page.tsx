@@ -83,6 +83,8 @@ const PremiumTooltip = ({ active, payload, label }: PremiumTooltipProps) => {
 };
 
 export default function AnalyticsPage() {
+  const isMounted = typeof window !== "undefined";
+
   const {
     data: leads = [],
     isLoading,
@@ -174,6 +176,14 @@ export default function AnalyticsPage() {
     (l) =>
       l.status.toLowerCase() !== "won" && l.status.toLowerCase() !== "lost",
   ).length;
+
+  if (!isMounted || isLoading) {
+    return (
+      <div className="h-full min-h-150 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-[#3186ff] animate-spin" />
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
