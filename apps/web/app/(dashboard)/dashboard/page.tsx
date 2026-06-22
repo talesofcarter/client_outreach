@@ -76,7 +76,6 @@ export default function DashboardHome() {
 
   // 2. Format the email into a capitalized first name (e.g., kelvin@... -> Kelvin)
   const displayName = user?.name;
-  console.log(displayName);
 
   // 3. Define the expected return type for TanStack Query
   const { data: leads = [], isLoading } = useQuery<Lead[]>({
@@ -178,7 +177,7 @@ export default function DashboardHome() {
         </div>
 
         <div className="w-full overflow-x-auto min-h-50">
-          {recentLeads.length === 0 ? (
+          {leads.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-[#747775]">
               <Target className="w-10 h-10 mb-3 opacity-20" />
               <p>No leads found. Add your first prospect to get started.</p>
@@ -200,7 +199,7 @@ export default function DashboardHome() {
                 </tr>
               </thead>
               <tbody className="text-sm">
-                {leads.map((lead: Lead) => {
+                {recentLeads.map((lead: Lead) => {
                   const badge =
                     statusConfig[lead.status] || statusConfig.not_contacted;
 
