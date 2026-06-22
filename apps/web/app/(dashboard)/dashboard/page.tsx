@@ -12,6 +12,7 @@ import {
 import { Lead, LeadStatus } from "@/types";
 import { formatStatus } from "@/lib/formatStatus";
 import { apiUrl } from "@/lib/api";
+import { useMemo } from "react";
 
 const getAuthToken = () => {
   if (typeof document === "undefined") return null;
@@ -90,6 +91,16 @@ export default function DashboardHome() {
     },
   });
 
+  const recentLeads = useMemo(() => {
+    return [...leads]
+      .sort((a, b) => {
+        const dateA = new Date(a.created_at).getTime();
+        const dateB = new Date(b.created_at).getTime();
+        return dateB - dateA;
+      })
+      .slice(0, 7);
+  }, [leads]);
+
   const activeLeadsCount = leads.filter(
     (l: Lead) => l.status !== "won" && l.status !== "lost",
   ).length;
@@ -167,7 +178,7 @@ export default function DashboardHome() {
         </div>
 
         <div className="w-full overflow-x-auto min-h-50">
-          {leads.length === 0 ? (
+          {recentLeads.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-[#747775]">
               <Target className="w-10 h-10 mb-3 opacity-20" />
               <p>No leads found. Add your first prospect to get started.</p>
