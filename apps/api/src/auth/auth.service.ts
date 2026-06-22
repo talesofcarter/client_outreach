@@ -5,9 +5,9 @@ import * as bcrypt from 'bcrypt';
 
 interface UserRow {
   id: string;
-  email: string;
-  password: string;
   name: string;
+  email: string;
+  password_hash: string;
 }
 
 @Injectable()
@@ -32,7 +32,7 @@ export class AuthService {
     }
 
     // 3. Compare the provided password with the hashed database password
-    const isPasswordValid = await bcrypt.compare(pass, user.password);
+    const isPasswordValid = await bcrypt.compare(pass, user.password_hash);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid email or password');
