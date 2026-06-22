@@ -10,8 +10,8 @@ const pool = new Pool({
 });
 
 async function seed() {
-  const email = 'kelvinjuma99@gmail.com';
-  const plainTextPassword = 'securePassword'; // <-- Change this to your actual password
+  const email = '';
+  const plainTextPassword = '';
   const name = 'Kelvin Juma';
 
   try {
@@ -21,7 +21,7 @@ async function seed() {
 
     console.log('Inserting admin user...');
     await pool.query(
-      `INSERT INTO users (email, password, name) 
+      `INSERT INTO users (email, password_hash, name) 
        VALUES ($1, $2, $3) 
        ON CONFLICT (email) DO NOTHING`,
       [email, hashedPassword, name],
