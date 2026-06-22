@@ -272,13 +272,18 @@ export default function AnalyticsPage() {
             </p>
           </div>
 
-          <div className="flex-1 min-h-75">
+          <div className="flex-1 min-h-75 w-full">
             {pipelineData.length === 0 ? (
               <div className="h-full flex items-center justify-center text-[#747775] text-sm">
                 No data available
               </div>
             ) : (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer
+                width="100%"
+                height="100%"
+                minWidth={0}
+                minHeight={0}
+              >
                 <PieChart>
                   <Tooltip
                     content={<PremiumTooltip />}
@@ -315,13 +320,18 @@ export default function AnalyticsPage() {
             </p>
           </div>
 
-          <div className="flex-1 min-h-75">
+          <div className="flex-1 min-h-75 w-full">
             {categoryData.length === 0 ? (
               <div className="h-full flex items-center justify-center text-[#747775] text-sm">
                 No data available
               </div>
             ) : (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer
+                width="100%"
+                height="100%"
+                minWidth={0}
+                minHeight={0}
+              >
                 <BarChart
                   data={categoryData}
                   margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
@@ -363,7 +373,6 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Full Width Bottom Chart: Leads by Region (Horizontal) */}
-        {/* Full Width Bottom Chart: Leads by Region (Horizontal) */}
         <div className="lg:col-span-2 bg-white rounded-[28px] p-7 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] flex flex-col">
           <div className="mb-6 border-b border-[#e0e0e0]/60 pb-4 shrink-0">
             <h3 className="text-[18px] font-medium text-[#1f1f1f]">
@@ -374,25 +383,27 @@ export default function AnalyticsPage() {
             </p>
           </div>
 
-          {/* THE ARCHITECTURE FIX: Fixed height outer container, scrolling inner container */}
           <div className="flex-1 h-87.5 overflow-y-auto pr-2 custom-scrollbar relative">
             {regionData.length === 0 ? (
               <div className="absolute inset-0 flex items-center justify-center text-[#747775] text-sm">
                 No data available
               </div>
             ) : (
-              /* The inner container expands mathematically based on data size */
               <div
                 style={{
                   height: `${dynamicRegionChartHeight}px`,
                   width: "100%",
                 }}
               >
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer
+                  width="100%"
+                  height="100%"
+                  minWidth={0}
+                  minHeight={0}
+                >
                   <BarChart
                     data={regionData}
                     layout="vertical"
-                    // Adjusted left margin to accommodate longer city names without cutting them off
                     margin={{ top: 10, right: 30, left: 60, bottom: 0 }}
                   >
                     <CartesianGrid
