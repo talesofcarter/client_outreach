@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -19,7 +19,7 @@ import { toast } from "@/lib/toast";
 import { Lead } from "@/types";
 import { apiUrl } from "@/lib/api";
 
-export function EditLeadPanel({ lead }: { lead: Lead }) {
+function EditLeadPanelContent({ lead }: { lead: Lead }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -126,7 +126,6 @@ export function EditLeadPanel({ lead }: { lead: Lead }) {
             onSubmit={handleSubmit}
             className="space-y-6"
           >
-            {/* IMPORTANT: Added Status Dropdown for pipeline progression */}
             <div className="relative group">
               <select
                 id="status"
@@ -190,23 +189,21 @@ export function EditLeadPanel({ lead }: { lead: Lead }) {
               </div>
 
               <div className="relative group">
-                <div className="relative group">
-                  <input
-                    type="text"
-                    id="category"
-                    name="category"
-                    defaultValue={lead.category}
-                    className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] peer"
-                    required
-                    placeholder=" "
-                  />
-                  <label
-                    htmlFor="category"
-                    className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:text-[#3186ff] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 flex items-center gap-1.5 cursor-text"
-                  >
-                    <Tag className="w-4 h-4" /> Category
-                  </label>
-                </div>
+                <input
+                  type="text"
+                  id="category"
+                  name="category"
+                  defaultValue={lead.category}
+                  className="block px-4 pb-2.5 pt-6 w-full text-[15px] text-[#1f1f1f] bg-transparent rounded-xl border border-[#747775] appearance-none focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] peer"
+                  required
+                  placeholder=" "
+                />
+                <label
+                  htmlFor="category"
+                  className="absolute text-[15px] text-[#747775] duration-200 transform -translate-y-4 scale-[0.80] top-4 z-10 origin-left left-4 bg-white px-1 peer-focus:text-[#3186ff] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-[0.80] peer-focus:-translate-y-4 flex items-center gap-1.5 cursor-text"
+                >
+                  <Tag className="w-4 h-4" /> Category
+                </label>
               </div>
             </div>
 
@@ -312,5 +309,13 @@ export function EditLeadPanel({ lead }: { lead: Lead }) {
         </div>
       </div>
     </div>
+  );
+}
+
+export function EditLeadPanel({ lead }: { lead: Lead }) {
+  return (
+    <Suspense fallback={null}>
+      <EditLeadPanelContent lead={lead} />
+    </Suspense>
   );
 }
