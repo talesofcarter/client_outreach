@@ -15,6 +15,7 @@ import {
 import { Lead, LeadStatus } from "@/types";
 import { formatStatus } from "@/lib/formatStatus";
 import { apiUrl } from "@/lib/api";
+import { StatusBadge } from "@/components/leads/status-badge";
 
 const getAuthToken = () => {
   if (typeof document === "undefined") return null;
@@ -30,37 +31,6 @@ const formatDate = (dateString: string) => {
     day: "numeric",
     year: "numeric",
   }).format(new Date(dateString));
-};
-
-const statusConfig: Record<LeadStatus, { label: string; colors: string }> = {
-  not_contacted: {
-    label: "Not Contacted",
-    colors: "bg-[#f0f4f9] text-[#444746] border-[#e0e0e0]",
-  },
-
-  contacted: {
-    label: "Contacted",
-    colors: "bg-[#3186ff]/10 text-[#3186ff] border-[#3186ff]/20",
-  },
-
-  follow_up_scheduled: {
-    label: "Follow-up",
-    colors: "bg-[#fed50d]/20 text-[#d97706] border-[#fed50d]/30",
-  },
-  negotiating: {
-    label: "Negotiating",
-    colors: "bg-[#3186ff]/10 text-[#3186ff] border-[#3186ff]/20",
-  },
-
-  won: {
-    label: "Won",
-    colors: "bg-[#0ebc5f]/10 text-[#16a34a] border-[#0ebc5f]/20",
-  },
-
-  lost: {
-    label: "Lost",
-    colors: "bg-[#ea4335]/10 text-[#dc2626] border-[#ea4335]/20",
-  },
 };
 
 export default function LeadsDirectoryPage() {
@@ -233,9 +203,6 @@ export default function LeadsDirectoryPage() {
               </thead>
               <tbody className="text-[14px]">
                 {filteredLeads.map((lead: Lead) => {
-                  const badge =
-                    statusConfig[lead.status] || statusConfig.not_contacted;
-
                   return (
                     <tr
                       key={lead.id}
@@ -251,12 +218,8 @@ export default function LeadsDirectoryPage() {
                       <td className="px-6 py-4 text-[#444746]">
                         {lead.city_region}
                       </td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${badge.colors}`}
-                        >
-                          {formatStatus(lead.status)}
-                        </span>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <StatusBadge status={formatStatus(lead.status)} />
                       </td>
                       <td className="px-6 py-4 text-[#444746]">
                         {formatDate(lead.created_at)}
