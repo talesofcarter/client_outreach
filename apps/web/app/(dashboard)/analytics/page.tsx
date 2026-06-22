@@ -158,9 +158,10 @@ export default function AnalyticsPage() {
         name: region,
         count: counts[region],
       }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 10); // Show top 10 regions
+      .sort((a, b) => b.count - a.count);
   }, [leads]);
+
+  const dynamicRegionChartHeight = Math.max(350, regionData.length * 45);
 
   // Key Metrics
   const winRate =
@@ -362,8 +363,9 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Full Width Bottom Chart: Leads by Region (Horizontal) */}
+        {/* Full Width Bottom Chart: Leads by Region (Horizontal) */}
         <div className="lg:col-span-2 bg-white rounded-[28px] p-7 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] flex flex-col">
-          <div className="mb-6 border-b border-[#e0e0e0]/60 pb-4">
+          <div className="mb-6 border-b border-[#e0e0e0]/60 pb-4 shrink-0">
             <h3 className="text-[18px] font-medium text-[#1f1f1f]">
               Geographical Distribution
             </h3>
@@ -372,52 +374,62 @@ export default function AnalyticsPage() {
             </p>
           </div>
 
-          <div className="flex-1 min-h-87.5">
+          {/* THE ARCHITECTURE FIX: Fixed height outer container, scrolling inner container */}
+          <div className="flex-1 h-87.5 overflow-y-auto pr-2 custom-scrollbar relative">
             {regionData.length === 0 ? (
-              <div className="h-full flex items-center justify-center text-[#747775] text-sm">
+              <div className="absolute inset-0 flex items-center justify-center text-[#747775] text-sm">
                 No data available
               </div>
             ) : (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={regionData}
-                  layout="vertical"
-                  margin={{ top: 10, right: 30, left: 40, bottom: 0 }}
-                >
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    horizontal={true}
-                    vertical={false}
-                    stroke="#e0e0e0"
-                  />
+              /* The inner container expands mathematically based on data size */
+              <div
+                style={{
+                  height: `${dynamicRegionChartHeight}px`,
+                  width: "100%",
+                }}
+              >
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={regionData}
+                    layout="vertical"
+                    // Adjusted left margin to accommodate longer city names without cutting them off
+                    margin={{ top: 10, right: 30, left: 60, bottom: 0 }}
+                  >
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      horizontal={true}
+                      vertical={false}
+                      stroke="#e0e0e0"
+                    />
 
-                  <XAxis
-                    type="number"
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fill: "#747775", fontSize: 12 }}
-                  />
-                  <YAxis
-                    type="category"
-                    dataKey="name"
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fill: "#1f1f1f", fontSize: 13, fontWeight: 500 }}
-                    width={100}
-                  />
+                    <XAxis
+                      type="number"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: "#747775", fontSize: 12 }}
+                    />
+                    <YAxis
+                      type="category"
+                      dataKey="name"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: "#1f1f1f", fontSize: 13, fontWeight: 500 }}
+                      width={100}
+                    />
 
-                  <Tooltip
-                    content={<PremiumTooltip />}
-                    cursor={{ fill: "#f0f4f9" }}
-                  />
-                  <Bar
-                    dataKey="count"
-                    fill="#fed50d"
-                    radius={[0, 6, 6, 0]}
-                    barSize={32}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
+                    <Tooltip
+                      content={<PremiumTooltip />}
+                      cursor={{ fill: "#f0f4f9" }}
+                    />
+                    <Bar
+                      dataKey="count"
+                      fill="#fed50d"
+                      radius={[0, 6, 6, 0]}
+                      barSize={32}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             )}
           </div>
         </div>
