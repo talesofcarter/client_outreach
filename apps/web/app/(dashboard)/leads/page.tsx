@@ -122,30 +122,30 @@ export default function LeadsDirectoryPage() {
   return (
     <div className="max-w-300 mx-auto w-full h-[calc(100vh-100px)] flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
       {/* 1. Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 shrink-0">
-        <div>
-          <h1 className="text-[28px] font-normal text-[#1f1f1f] tracking-tight">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 mb-6 shrink-0">
+        <div className="flex-1">
+          <h1 className="text-[24px] sm:text-[28px] font-normal text-[#1f1f1f] tracking-tight">
             Clients & Leads
           </h1>
-          <p className="text-base text-[#444746] mt-1">
+          <p className="text-[14px] sm:text-base text-[#444746] mt-1">
             Manage and track your entire outreach pipeline.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
           <button
             onClick={handleExport}
-            className="flex items-center gap-2 px-4 py-2.5 text-[14px] font-medium text-[#444746] bg-white border border-[#e0e0e0] rounded-xl hover:bg-[#f8fafd] transition-colors shadow-sm"
+            className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-4 py-2.5 text-[14px] font-medium text-[#444746] bg-white border border-[#e0e0e0] rounded-xl hover:bg-[#f8fafd] transition-colors shadow-sm"
           >
             <Download className="w-4 h-4" /> Export CSV
           </button>
 
-          {/* Triggers the global ?action=new-lead parameter we built earlier */}
           <button
             onClick={() =>
               router.push(`${pathname}?action=new-lead`, { scroll: false })
             }
-            className="flex items-center gap-2 px-5 py-2.5 text-[14px] font-medium bg-[#3186ff] text-white rounded-xl shadow-sm hover:bg-[#2872dd] transition-all active:scale-[0.98]"
+            // 3. Added flex-1 sm:flex-none and justify-center here as well
+            className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-5 py-2.5 text-[14px] font-medium bg-[#3186ff] text-white rounded-xl shadow-sm hover:bg-[#2872dd] transition-all active:scale-[0.98]"
           >
             <Plus className="w-4 h-4" strokeWidth={2.5} /> New Lead
           </button>
