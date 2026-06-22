@@ -13,6 +13,7 @@ import { Lead, LeadStatus } from "@/types";
 import { formatStatus } from "@/lib/formatStatus";
 import { apiUrl } from "@/lib/api";
 import { useMemo } from "react";
+import { StatusBadge } from "@/components/leads/status-badge";
 
 const getAuthToken = () => {
   if (typeof document === "undefined") return null;
@@ -226,7 +227,7 @@ export default function DashboardHome() {
                         <span
                           className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${badge.colors}`}
                         >
-                          {formatStatus(lead.status)}
+                          <StatusBadge status={formatStatus(lead.status)} />
                         </span>
                       </td>
                       <td className="px-6 py-4 text-[#444746] text-right">
