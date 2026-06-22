@@ -16,7 +16,8 @@ export function middleware(request: NextRequest) {
   const isProtectedRoute =
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/analytics") ||
-    pathname.startsWith("/leads");
+    pathname.startsWith("/leads") ||
+    pathname.startsWith("/reports");
 
   // If they have NO token and try to hit a protected route OR the root, send to login.
   if (!token && (isProtectedRoute || pathname === "/")) {
@@ -33,5 +34,6 @@ export const config = {
     "/dashboard/:path*",
     "/analytics/:path*",
     "/leads/:path*",
+    "/reports/:path*",
   ],
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
@@ -10,8 +10,22 @@ import {
   Plus,
   Menu,
   BarChart3,
+  ChartPie,
   LogOut,
 } from "lucide-react";
+
+interface SidebarLink {
+  name: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const sidebarLinks: SidebarLink[] = [
+  { name: "Dashboard", href: "/", icon: LayoutDashboard },
+  { name: "Clients & Leads", href: "/leads", icon: Users },
+  { name: "Analytics", href: "/analytics", icon: BarChart3 },
+  { name: "Reports", href: "/reports", icon: ChartPie },
+];
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -110,59 +124,26 @@ export function Sidebar() {
 
         {/* Navigation Pills */}
         <nav className="flex flex-col gap-1 px-2">
-          <Link
-            href="/"
-            title={!isExpanded ? "Dashboard" : undefined}
-            className={`flex items-center rounded-full font-medium transition-all duration-200 overflow-hidden group
-              ${isActive("/") ? "bg-[#c2e7ff]/40 text-[#001d35]" : "text-[#444746] hover:bg-[#e9eef6]"}
-              ${isExpanded ? "gap-3 px-4 py-3" : "justify-center w-12 h-12 mx-auto"}
-            `}
-          >
-            <LayoutDashboard
-              className={`w-5 h-5 shrink-0 ${isActive("/") ? "text-[#001d35]" : "text-[#444746] group-hover:text-[#1f1f1f]"}`}
-            />
-            <span
-              className={`whitespace-nowrap transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0 hidden"}`}
-            >
-              Dashboard
-            </span>
-          </Link>
-
-          <Link
-            href="/leads"
-            title={!isExpanded ? "Clients & Leads" : undefined}
-            className={`flex items-center rounded-full font-medium transition-all duration-200 overflow-hidden group
-              ${isActive("/leads") ? "bg-[#c2e7ff]/40 text-[#001d35]" : "text-[#444746] hover:bg-[#e9eef6]"}
-              ${isExpanded ? "gap-3 px-4 py-3" : "justify-center w-12 h-12 mx-auto"}
-            `}
-          >
-            <Users
-              className={`w-5 h-5 shrink-0 ${isActive("/leads") ? "text-[#001d35]" : "text-[#444746] group-hover:text-[#1f1f1f]"}`}
-            />
-            <span
-              className={`whitespace-nowrap transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0 hidden"}`}
-            >
-              Clients & Leads
-            </span>
-          </Link>
-
-          <Link
-            href="/analytics"
-            title={!isExpanded ? "Analytics" : undefined}
-            className={`flex items-center rounded-full font-medium transition-all duration-200 overflow-hidden group
-              ${isActive("/analytics") ? "bg-[#c2e7ff]/40 text-[#001d35]" : "text-[#444746] hover:bg-[#e9eef6]"}
-              ${isExpanded ? "gap-3 px-4 py-3" : "justify-center w-12 h-12 mx-auto"}
-            `}
-          >
-            <BarChart3
-              className={`w-5 h-5 shrink-0 ${isActive("/analytics") ? "text-[#001d35]" : "text-[#444746] group-hover:text-[#1f1f1f]"}`}
-            />
-            <span
-              className={`whitespace-nowrap transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0 hidden"}`}
-            >
-              Analytics
-            </span>
-          </Link>
+          {sidebarLinks.map((link) => {
+            return (
+              <div key={link.name}>
+                <Link
+                  href={link.href}
+                  title={!isExpanded ? `${link.name}` : undefined}
+                  className={`flex items-center rounded-full font-medium transition-all duration-200 overflow-hidden group ${isActive(link.href) ? "bg-[#c2e7ff]/40 text-[#001d35]" : "text-[#444746] hover:bg-[#e9eef6]"} ${isExpanded ? "gap-3 px-4 py-3" : "justify-center w-12 h-12 mx-auto"}`}
+                >
+                  <link.icon
+                    className={`w-5 h-5 shrink-0 ${isActive(link.href) ? "text-[#001d35]" : "text-[#444746] group-hover:text-[#1f1f1f]"}`}
+                  />
+                  <span
+                    className={`whitespace-nowrap transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0 hidden"}`}
+                  >
+                    {link.name}
+                  </span>
+                </Link>
+              </div>
+            );
+          })}
         </nav>
       </div>
 

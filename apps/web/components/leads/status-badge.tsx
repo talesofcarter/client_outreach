@@ -12,7 +12,7 @@ export function StatusBadge({ status }: { status: string }) {
       colors: "bg-[#3186ff]/10 text-[#3186ff] border-[#3186ff]/20",
     },
     follow_up_scheduled: {
-      label: "Follow-up",
+      label: "Follow Up Scheduled",
       // Note: Text is slightly darker than the bg color for WCAG contrast compliance
       colors: "bg-[#fed50d]/10 text-[#b29500] border-[#fed50d]/20",
     },
