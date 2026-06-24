@@ -1,6 +1,11 @@
 packages:
   - apps/*
 
+allowBuilds:
+  bcrypt: true
+  sharp: true
+  unrs-resolver: true
+
 onlyBuiltDependencies:
   - '@prisma/engines'
   - bcrypt

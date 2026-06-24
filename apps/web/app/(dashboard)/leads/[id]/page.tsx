@@ -22,6 +22,7 @@ import { Lead, LeadStatus } from "@/types";
 import { EditLeadPanel } from "@/components/leads/edit-lead-panel";
 import { formatStatus } from "@/lib/formatStatus";
 import { apiUrl } from "@/lib/api";
+import ReactMarkdown from "react-markdown";
 
 const getAuthToken = () => {
   if (typeof document === "undefined") return null;
@@ -244,9 +245,12 @@ export default function LeadDetailsPage() {
             <h3 className="text-[18px] font-medium text-[#1f1f1f] mb-4 border-b border-[#e0e0e0]/60 pb-3">
               Key Issues Identified
             </h3>
-            <p className="text-[15px] text-[#444746] leading-relaxed whitespace-pre-wrap">
-              {lead.key_issues_found}
-            </p>
+            <div className="prose prose-sm max-w-none prose-p:text-[15px] prose-p:text-[#444746] prose-p:leading-relaxed prose-headings:text-[#1f1f1f] prose-headings:font-semibold prose-a:text-[#3186ff] prose-a:no-underline hover:prose-a:underline prose-li:text-[#444746] prose-li:text-[15px] prose-strong:text-[#1f1f1f]">
+              <ReactMarkdown>
+                {lead.key_issues_found ||
+                  "*No key issues have been recorded for this lead yet.*"}
+              </ReactMarkdown>
+            </div>
           </div>
 
           <div className="bg-white rounded-3xl p-7 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] opacity-60">
