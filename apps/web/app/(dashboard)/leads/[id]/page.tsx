@@ -22,6 +22,7 @@ import { Lead, LeadStatus } from "@/types";
 import { EditLeadPanel } from "@/components/leads/edit-lead-panel";
 import { formatStatus } from "@/lib/formatStatus";
 import { apiUrl } from "@/lib/api";
+import { StatusBadge } from "@/components/leads/status-badge";
 import ReactMarkdown from "react-markdown";
 
 const getAuthToken = () => {
@@ -224,11 +225,8 @@ export default function LeadDetailsPage() {
           </div>
 
           <div className="flex flex-col items-end gap-3">
-            <span
-              className={`inline-flex items-center px-3.5 py-1.5 rounded-full text-sm font-medium border ${badge.colors}`}
-            >
-              {formatStatus(lead.status)}
-            </span>
+            <StatusBadge status={formatStatus(lead.status)} />
+
             <span className="flex items-center gap-1.5 text-xs text-[#747775]">
               <Calendar className="w-3.5 h-3.5" /> Added{" "}
               {formatDate(lead.created_at)}
