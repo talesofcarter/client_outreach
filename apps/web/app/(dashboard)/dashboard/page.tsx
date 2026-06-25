@@ -102,63 +102,99 @@ export default function DashboardHome() {
       </div>
 
       {/* Metric Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Active Leads */}
-        <div className="bg-white rounded-2xl p-5 border border-[#e0e0e0]/60 relative overflow-hidden group transition-all duration-200 hover:border-[#c4c7c5] hover:shadow-sm">
-          <div className="absolute top-0 right-0 w-16 h-16 rounded-full bg-[#3186ff]/10 -translate-y-4 translate-x-4 group-hover:scale-125 transition-transform duration-500" />
-          <div className="w-9 h-9 rounded-[10px] bg-[#e8f0fe] flex items-center justify-center mb-4">
+        <div className="bg-white rounded-3xl p-5 border border-[#e0e0e0]/60 hover:border-[#c4c7c5] hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 ease-out group flex flex-col gap-4 relative overflow-hidden">
+          <div className="absolute -bottom-6 -right-6 pointer-events-none z-0 opacity-[0.03] group-hover:opacity-[0.06] group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500 ease-out">
             <ArrowUpRight
-              className="w-4.5 h-4.5 text-[#185FA5]"
-              strokeWidth={2}
+              className="w-36 h-36 text-[#3186ff]"
+              strokeWidth={1.5}
             />
           </div>
-          <p className="text-[11px] font-medium text-[#747775] uppercase tracking-widest">
-            Active Leads
-          </p>
-          <h2 className="text-[30px] font-medium text-[#1f1f1f] mt-1 leading-none">
-            {activeLeadsCount}
-          </h2>
-          <p className="text-xs text-[#185FA5] mt-2 flex items-center gap-1">
-            <ArrowUpRight className="w-3 h-3" strokeWidth={2.5} />
-            12% this week
-          </p>
+
+          <div className="relative z-10 flex justify-between items-start">
+            <p className="text-[12px] font-medium text-[#747775] uppercase tracking-widest mt-1">
+              Active Leads
+            </p>
+            <div className="w-10 h-10 rounded-xl bg-[#f0f4f9] group-hover:bg-[#e8f0fe] transition-colors flex items-center justify-center shrink-0">
+              <ArrowUpRight
+                className="w-5 h-5 text-[#3186ff]"
+                strokeWidth={2}
+              />
+            </div>
+          </div>
+          <div className="relative z-10">
+            <h2 className="text-[32px] font-normal text-[#1f1f1f] leading-none tracking-tight">
+              {activeLeadsCount}
+            </h2>
+            <div className="flex items-center gap-2 mt-2.5">
+              <span className="flex items-center gap-1 text-[12px] font-medium text-[#185FA5] bg-[#e8f0fe] px-2 py-0.5 rounded-md">
+                <ArrowUpRight className="w-3 h-3" strokeWidth={2.5} />
+                12%
+              </span>
+              <span className="text-[13px] text-[#747775]">this week</span>
+            </div>
+          </div>
         </div>
 
         {/* Pending Follow-ups */}
-        <div className="bg-white rounded-2xl p-5 border border-[#e0e0e0]/60 relative overflow-hidden group transition-all duration-200 hover:border-[#c4c7c5] hover:shadow-sm">
-          <div className="absolute top-0 right-0 w-16 h-16 rounded-full bg-[#ef9f27]/10 -translate-y-4 translate-x-4 group-hover:scale-125 transition-transform duration-500" />
-          <div className="w-9 h-9 rounded-[10px] bg-[#faeeda] flex items-center justify-center mb-4">
-            <Clock className="w-4.5 h-4.5 text-[#854F0B]" strokeWidth={2} />
+        <div className="bg-white rounded-3xl p-5 border border-[#e0e0e0]/60 hover:border-[#c4c7c5] hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 ease-out group flex flex-col gap-4 relative overflow-hidden">
+          <div className="absolute -bottom-6 -right-6 pointer-events-none z-0 opacity-[0.03] group-hover:opacity-[0.06] group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500 ease-out">
+            <Clock className="w-36 h-36 text-[#ef9f27]" strokeWidth={1.5} />
           </div>
-          <p className="text-[11px] font-medium text-[#747775] uppercase tracking-widest">
-            Pending Follow-ups
-          </p>
-          <h2 className="text-[30px] font-medium text-[#1f1f1f] mt-1 leading-none">
-            {pendingFollowUps}
-          </h2>
-          <p className="text-xs text-[#854F0B] mt-2 flex items-center gap-1">
-            <Clock className="w-3 h-3" strokeWidth={2.5} />8 due today
-          </p>
+
+          <div className="relative z-10 flex justify-between items-start">
+            <p className="text-[12px] font-medium text-[#747775] uppercase tracking-widest mt-1">
+              Pending Follow-ups
+            </p>
+            <div className="w-10 h-10 rounded-xl bg-[#f0f4f9] group-hover:bg-[#faeeda] transition-colors flex items-center justify-center shrink-0">
+              <Clock className="w-5 h-5 text-[#ef9f27]" strokeWidth={2} />
+            </div>
+          </div>
+          <div className="relative z-10">
+            <h2 className="text-[32px] font-normal text-[#1f1f1f] leading-none tracking-tight">
+              {pendingFollowUps}
+            </h2>
+            <div className="flex items-center gap-2 mt-2.5">
+              <span className="flex items-center gap-1 text-[12px] font-medium text-[#854F0B] bg-[#faeeda] px-2 py-0.5 rounded-md">
+                <Clock className="w-3 h-3" strokeWidth={2.5} />8 due
+              </span>
+              <span className="text-[13px] text-[#747775]">today</span>
+            </div>
+          </div>
         </div>
 
         {/* Deals Won */}
-        <div className="bg-white rounded-2xl p-5 border border-[#e0e0e0]/60 relative overflow-hidden group transition-all duration-200 hover:border-[#c4c7c5] hover:shadow-sm">
-          <div className="absolute top-0 right-0 w-16 h-16 rounded-full bg-[#1d9e75]/10 -translate-y-4 translate-x-4 group-hover:scale-125 transition-transform duration-500" />
-          <div className="w-9 h-9 rounded-[10px] bg-[#e1f5ee] flex items-center justify-center mb-4">
+        <div className="bg-white rounded-3xl p-5 border border-[#e0e0e0]/60 hover:border-[#c4c7c5] hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 ease-out group flex flex-col gap-4 relative overflow-hidden">
+          <div className="absolute -bottom-6 -right-6 pointer-events-none z-0 opacity-[0.03] group-hover:opacity-[0.06] group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500 ease-out">
             <CheckCircle2
-              className="w-4.5 h-4.5 text-[#0F6E56]"
-              strokeWidth={2}
+              className="w-36 h-36 text-[#1d9e75]"
+              strokeWidth={1.5}
             />
           </div>
-          <p className="text-[11px] font-medium text-[#747775] uppercase tracking-widest">
-            Deals Won
-          </p>
-          <h2 className="text-[30px] font-medium text-[#1f1f1f] mt-1 leading-none">
-            {dealsWonCount}
-          </h2>
-          <p className="text-xs text-[#0F6E56] mt-2 flex items-center gap-1">
-            <ArrowUpRight className="w-3 h-3" strokeWidth={2.5} />3 this month
-          </p>
+
+          <div className="relative z-10 flex justify-between items-start">
+            <p className="text-[12px] font-medium text-[#747775] uppercase tracking-widest mt-1">
+              Deals Won
+            </p>
+            <div className="w-10 h-10 rounded-xl bg-[#f0f4f9] group-hover:bg-[#e1f5ee] transition-colors flex items-center justify-center shrink-0">
+              <CheckCircle2
+                className="w-5 h-5 text-[#1d9e75]"
+                strokeWidth={2}
+              />
+            </div>
+          </div>
+          <div className="relative z-10">
+            <h2 className="text-[32px] font-normal text-[#1f1f1f] leading-none tracking-tight">
+              {dealsWonCount}
+            </h2>
+            <div className="flex items-center gap-2 mt-2.5">
+              <span className="flex items-center gap-1 text-[12px] font-medium text-[#0F6E56] bg-[#e1f5ee] px-2 py-0.5 rounded-md">
+                <ArrowUpRight className="w-3 h-3" strokeWidth={2.5} />3
+              </span>
+              <span className="text-[13px] text-[#747775]">this month</span>
+            </div>
+          </div>
         </div>
       </div>
 
