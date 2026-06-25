@@ -203,78 +203,85 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="max-w-300 mx-auto w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out pb-12">
+    <div className="max-w-300 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out pb-12">
       {/* Header */}
       <div>
-        <h1 className="text-[28px] font-normal text-[#1f1f1f] tracking-tight">
+        <h1 className="text-[22px] font-medium text-[#1f1f1f] tracking-tight">
           Analytics & Pipeline
         </h1>
-        <p className="text-base text-[#444746] mt-1">
+        <p className="text-sm text-[#747775] mt-0.5">
           Visualizing your outreach performance and conversion metrics.
         </p>
       </div>
 
       {/* Top Metric Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-3xl p-6 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] flex items-center gap-5">
-          <div className="w-12 h-12 rounded-full bg-[#3186ff]/10 flex items-center justify-center shrink-0">
-            <Target className="w-6 h-6 text-[#3186ff]" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-white rounded-2xl p-5 border border-[#e0e0e0]/70 flex items-center gap-4 transition-all duration-200 hover:border-[#c4c7c5] hover:shadow-sm">
+          <div className="w-10 h-10 rounded-[10px] bg-[#e8f0fe] flex items-center justify-center shrink-0">
+            <Target className="w-5 h-5 text-[#185FA5]" />
           </div>
           <div>
-            <p className="text-sm font-medium text-[#747775]">
+            <p className="text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em]">
               Active Pipeline
             </p>
-            <h2 className="text-[28px] font-normal text-[#1f1f1f] leading-tight">
-              {activePipeline} Leads
+            <h2 className="text-[26px] font-medium text-[#1f1f1f] leading-tight mt-0.5">
+              {activePipeline}{" "}
+              <span className="text-[16px] font-normal text-[#747775]">
+                leads
+              </span>
             </h2>
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] flex items-center gap-5">
-          <div className="w-12 h-12 rounded-full bg-[#0ebc5f]/10 flex items-center justify-center shrink-0">
-            <Award className="w-6 h-6 text-[#0ebc5f]" />
+        <div className="bg-white rounded-2xl p-5 border border-[#e0e0e0]/70 flex items-center gap-4 transition-all duration-200 hover:border-[#c4c7c5] hover:shadow-sm">
+          <div className="w-10 h-10 rounded-[10px] bg-[#e1f5ee] flex items-center justify-center shrink-0">
+            <Award className="w-5 h-5 text-[#0F6E56]" />
           </div>
           <div>
-            <p className="text-sm font-medium text-[#747775]">
+            <p className="text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em]">
               Overall Win Rate
             </p>
-            <h2 className="text-[28px] font-normal text-[#1f1f1f] leading-tight">
-              {winRate}%
+            <h2 className="text-[26px] font-medium text-[#1f1f1f] leading-tight mt-0.5">
+              {winRate}
+              <span className="text-[16px] font-normal text-[#747775]">%</span>
             </h2>
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] flex items-center gap-5">
-          <div className="w-12 h-12 rounded-full bg-[#f0f4f9] flex items-center justify-center shrink-0">
-            <BarChart3 className="w-6 h-6 text-[#444746]" />
+        <div className="bg-white rounded-2xl p-5 border border-[#e0e0e0]/70 flex items-center gap-4 transition-all duration-200 hover:border-[#c4c7c5] hover:shadow-sm">
+          <div className="w-10 h-10 rounded-[10px] bg-[#f1efe8] flex items-center justify-center shrink-0">
+            <BarChart3 className="w-5 h-5 text-[#5F5E5A]" />
           </div>
           <div>
-            <p className="text-sm font-medium text-[#747775]">
+            <p className="text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em]">
               Total Processed
             </p>
-            <h2 className="text-[28px] font-normal text-[#1f1f1f] leading-tight">
-              {leads.length} Deals
+            <h2 className="text-[26px] font-medium text-[#1f1f1f] leading-tight mt-0.5">
+              {leads.length}{" "}
+              <span className="text-[16px] font-normal text-[#747775]">
+                deals
+              </span>
             </h2>
           </div>
         </div>
       </div>
 
-      {/* Main Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left Chart: Doughnut */}
-        <div className="bg-white rounded-[28px] p-7 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] flex flex-col">
-          <div className="mb-6 border-b border-[#e0e0e0]/60 pb-4">
-            <h3 className="text-[18px] font-medium text-[#1f1f1f]">
+      {/* Charts Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Doughnut Chart */}
+        <div className="bg-white rounded-2xl p-6 border border-[#e0e0e0]/70 flex flex-col">
+          <div className="mb-5 pb-4 border-b border-[#e0e0e0]/60">
+            <h3 className="text-[15px] font-medium text-[#1f1f1f]">
               Pipeline Distribution
             </h3>
-            <p className="text-[14px] text-[#747775] mt-1">
+            <p className="text-sm text-[#9aa0a6] mt-0.5">
               Current status of all logged leads.
             </p>
           </div>
 
           <div className="flex-1 min-h-75 w-full">
             {pipelineData.length === 0 ? (
-              <div className="h-full flex items-center justify-center text-[#747775] text-sm">
+              <div className="h-full flex items-center justify-center text-sm text-[#9aa0a6]">
                 No data available
               </div>
             ) : (
@@ -309,20 +316,20 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Right Chart: Bar Graph */}
-        <div className="bg-white rounded-[28px] p-7 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] flex flex-col">
-          <div className="mb-6 border-b border-[#e0e0e0]/60 pb-4">
-            <h3 className="text-[18px] font-medium text-[#1f1f1f]">
+        {/* Bar Chart: Categories */}
+        <div className="bg-white rounded-2xl p-6 border border-[#e0e0e0]/70 flex flex-col">
+          <div className="mb-5 pb-4 border-b border-[#e0e0e0]/60">
+            <h3 className="text-[15px] font-medium text-[#1f1f1f]">
               Top Lead Categories
             </h3>
-            <p className="text-[14px] text-[#747775] mt-1">
+            <p className="text-sm text-[#9aa0a6] mt-0.5">
               Volume of outreach by industry sector.
             </p>
           </div>
 
           <div className="flex-1 min-h-75 w-full">
             {categoryData.length === 0 ? (
-              <div className="h-full flex items-center justify-center text-[#747775] text-sm">
+              <div className="h-full flex items-center justify-center text-sm text-[#9aa0a6]">
                 No data available
               </div>
             ) : (
@@ -339,13 +346,13 @@ export default function AnalyticsPage() {
                   <CartesianGrid
                     strokeDasharray="3 3"
                     vertical={false}
-                    stroke="#e0e0e0"
+                    stroke="#f0f0f0"
                   />
                   <XAxis
                     dataKey="name"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: "#747775", fontSize: 12 }}
+                    tick={{ fill: "#9aa0a6", fontSize: 12 }}
                     tickFormatter={(value) =>
                       value.length > 10 ? `${value.substring(0, 10)}...` : value
                     }
@@ -354,17 +361,17 @@ export default function AnalyticsPage() {
                   <YAxis
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: "#747775", fontSize: 12 }}
+                    tick={{ fill: "#9aa0a6", fontSize: 12 }}
                   />
                   <Tooltip
                     content={<PremiumTooltip />}
-                    cursor={{ fill: "#f0f4f9" }}
+                    cursor={{ fill: "#f8f9fa" }}
                   />
                   <Bar
                     dataKey="count"
                     fill="#3186ff"
                     radius={[6, 6, 6, 6]}
-                    barSize={40}
+                    barSize={36}
                   />
                 </BarChart>
               </ResponsiveContainer>
@@ -372,20 +379,20 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Full Width Bottom Chart: Leads by Region (Horizontal) */}
-        <div className="lg:col-span-2 bg-white rounded-[28px] p-7 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] flex flex-col">
-          <div className="mb-6 border-b border-[#e0e0e0]/60 pb-4 shrink-0">
-            <h3 className="text-[18px] font-medium text-[#1f1f1f]">
+        {/* Full-width: Geographical Distribution */}
+        <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-[#e0e0e0]/70 flex flex-col">
+          <div className="mb-5 pb-4 border-b border-[#e0e0e0]/60 shrink-0">
+            <h3 className="text-[15px] font-medium text-[#1f1f1f]">
               Geographical Distribution
             </h3>
-            <p className="text-[14px] text-[#747775] mt-1">
+            <p className="text-sm text-[#9aa0a6] mt-0.5">
               Lead concentration sorted by city and region.
             </p>
           </div>
 
           <div className="flex-1 h-87.5 overflow-y-auto pr-2 custom-scrollbar relative">
             {regionData.length === 0 ? (
-              <div className="absolute inset-0 flex items-center justify-center text-[#747775] text-sm">
+              <div className="absolute inset-0 flex items-center justify-center text-sm text-[#9aa0a6]">
                 No data available
               </div>
             ) : (
@@ -410,33 +417,31 @@ export default function AnalyticsPage() {
                       strokeDasharray="3 3"
                       horizontal={true}
                       vertical={false}
-                      stroke="#e0e0e0"
+                      stroke="#f0f0f0"
                     />
-
                     <XAxis
                       type="number"
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fill: "#747775", fontSize: 12 }}
+                      tick={{ fill: "#9aa0a6", fontSize: 12 }}
                     />
                     <YAxis
                       type="category"
                       dataKey="name"
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fill: "#1f1f1f", fontSize: 13, fontWeight: 500 }}
+                      tick={{ fill: "#444746", fontSize: 13, fontWeight: 500 }}
                       width={100}
                     />
-
                     <Tooltip
                       content={<PremiumTooltip />}
-                      cursor={{ fill: "#f0f4f9" }}
+                      cursor={{ fill: "#f8f9fa" }}
                     />
                     <Bar
                       dataKey="count"
                       fill="#fed50d"
                       radius={[0, 6, 6, 0]}
-                      barSize={32}
+                      barSize={28}
                     />
                   </BarChart>
                 </ResponsiveContainer>

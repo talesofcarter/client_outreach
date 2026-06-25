@@ -91,62 +91,63 @@ export default function LeadsDirectoryPage() {
 
   return (
     <div className="max-w-300 mx-auto w-full h-[calc(100vh-100px)] flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
-      {/* 1. Page Header */}
+      {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 mb-6 shrink-0">
         <div className="flex-1">
-          <h1 className="text-[24px] sm:text-[28px] font-normal text-[#1f1f1f] tracking-tight">
+          <h1 className="text-[22px] sm:text-[24px] font-medium text-[#1f1f1f] tracking-tight">
             Clients & Leads
           </h1>
-          <p className="text-[14px] sm:text-base text-[#444746] mt-1">
+          <p className="text-sm text-[#747775] mt-0.5">
             Manage and track your entire outreach pipeline.
           </p>
         </div>
 
-        <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
+        <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
           <button
             onClick={handleExport}
-            className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-4 py-2.5 text-[14px] font-medium text-[#444746] bg-white border border-[#e0e0e0] rounded-xl hover:bg-[#f8fafd] transition-colors shadow-sm"
+            className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-[#444746] bg-white border border-[#e0e0e0] rounded-xl hover:border-[#c4c7c5] hover:bg-[#f8f9fa] transition-all"
           >
-            <Download className="w-4 h-4" /> Export CSV
+            <Download className="w-4 h-4" />
+            Export CSV
           </button>
 
           <button
             onClick={() =>
               router.push(`${pathname}?action=new-lead`, { scroll: false })
             }
-            // 3. Added flex-1 sm:flex-none and justify-center here as well
-            className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-5 py-2.5 text-[14px] font-medium bg-[#3186ff] text-white rounded-xl shadow-sm hover:bg-[#2872dd] transition-all active:scale-[0.98]"
+            className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-5 py-2.5 text-sm font-medium bg-[#3186ff] text-white rounded-xl hover:bg-[#2872dd] transition-all active:scale-[0.98]"
           >
-            <Plus className="w-4 h-4" strokeWidth={2.5} /> New Lead
+            <Plus className="w-4 h-4" strokeWidth={2.5} />
+            New Lead
           </button>
         </div>
       </div>
 
-      {/* 2. The Main Data Canvas */}
-      <div className="flex-1 bg-white rounded-[28px] shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] flex flex-col overflow-hidden relative">
+      {/* Main Data Canvas */}
+      <div className="flex-1 bg-white rounded-2xl border border-[#e0e0e0]/70 flex flex-col overflow-hidden relative">
         {/* Filtering Toolbar */}
-        <div className="px-6 py-4 border-b border-[#e0e0e0]/60 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0 bg-[#f8fafd]/50">
+        <div className="px-5 py-3.5 border-b border-[#e0e0e0]/60 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
           {/* Search Input */}
-          <div className="relative w-full sm:max-w-90">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#747775]" />
+          <div className="relative w-full sm:max-w-80">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9aa0a6]" />
             <input
               type="text"
               placeholder="Search business, category, or region..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 text-[14px] text-[#1f1f1f] bg-white border border-[#e0e0e0] rounded-lg focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] transition-all"
+              className="w-full pl-10 pr-4 py-2 text-sm text-[#1f1f1f] placeholder:text-[#9aa0a6] bg-[#f8f9fa] border border-transparent rounded-lg focus:outline-none focus:bg-white focus:border-[#3186ff] focus:ring-[1.5px] focus:ring-[#3186ff]/20 transition-all"
             />
           </div>
 
-          {/* Status Filter Dropdown */}
+          {/* Status Filter */}
           <div className="flex items-center gap-2 w-full sm:w-auto">
-            <Filter className="w-4 h-4 text-[#747775]" />
+            <Filter className="w-4 h-4 text-[#9aa0a6] shrink-0" />
             <select
               value={statusFilter}
               onChange={(e) =>
                 setStatusFilter(e.target.value as LeadStatus | "ALL")
               }
-              className="w-full sm:w-45 px-3 py-2 text-[14px] font-medium text-[#444746] bg-white border border-[#e0e0e0] rounded-lg focus:outline-none focus:ring-[1.5px] focus:ring-[#3186ff] focus:border-[#3186ff] transition-all cursor-pointer"
+              className="w-full sm:w-48 px-3 py-2 text-sm font-medium text-[#444746] bg-[#f8f9fa] border border-transparent rounded-lg focus:outline-none focus:bg-white focus:border-[#3186ff] focus:ring-[1.5px] focus:ring-[#3186ff]/20 transition-all cursor-pointer appearance-none"
             >
               <option value="ALL">All Statuses</option>
               <option value="NOT_CONTACTED">Not Contacted</option>
@@ -163,15 +164,15 @@ export default function LeadsDirectoryPage() {
         <div className="flex-1 overflow-auto">
           {isLoading ? (
             <div className="h-full flex items-center justify-center">
-              <Loader2 className="w-8 h-8 text-[#3186ff] animate-spin" />
+              <Loader2 className="w-7 h-7 text-[#3186ff] animate-spin" />
             </div>
           ) : filteredLeads.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center px-4">
-              <Target className="w-12 h-12 text-[#d1d5db] mb-4" />
-              <h3 className="text-[18px] font-medium text-[#1f1f1f] mb-1">
+              <Target className="w-10 h-10 text-[#d1d5db] mb-3" />
+              <h3 className="text-[16px] font-medium text-[#1f1f1f] mb-1">
                 No leads found
               </h3>
-              <p className="text-[14px] text-[#444746] mb-6 max-w-75">
+              <p className="text-sm text-[#747775] mb-5 max-w-72">
                 {searchQuery || statusFilter !== "ALL"
                   ? "Try adjusting your search or filters to find what you're looking for."
                   : "Your pipeline is empty. Add a new lead to get started."}
@@ -183,7 +184,7 @@ export default function LeadsDirectoryPage() {
                       scroll: false,
                     })
                   }
-                  className="text-[#3186ff] text-sm font-medium hover:underline"
+                  className="text-sm font-medium text-[#3186ff] hover:text-[#2872dd] transition-colors"
                 >
                   Create your first lead
                 </button>
@@ -191,56 +192,68 @@ export default function LeadsDirectoryPage() {
             </div>
           ) : (
             <table className="w-full text-left border-collapse">
-              <thead className="sticky top-0 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.05)] z-10">
-                <tr className="border-b border-[#e0e0e0]/60 text-[13px] uppercase tracking-wider font-medium text-[#747775]">
-                  <th className="px-6 py-4 font-medium">Business Name</th>
-                  <th className="px-6 py-4 font-medium">Category</th>
-                  <th className="px-6 py-4 font-medium">Region</th>
-                  <th className="px-6 py-4 font-medium">Status</th>
-                  <th className="px-6 py-4 font-medium">Date Added</th>
-                  <th className="px-6 py-4 font-medium text-right">Action</th>
+              <thead className="sticky top-0 bg-white z-10 border-b border-[#e0e0e0]/60">
+                <tr>
+                  <th className="px-6 py-3 text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em]">
+                    Business Name
+                  </th>
+                  <th className="px-4 py-3 text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em]">
+                    Category
+                  </th>
+                  <th className="px-4 py-3 text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em]">
+                    Region
+                  </th>
+                  <th className="px-4 py-3 text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em]">
+                    Status
+                  </th>
+                  <th className="px-4 py-3 text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em]">
+                    Date Added
+                  </th>
+                  <th className="px-6 py-3 text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em] text-right">
+                    Action
+                  </th>
                 </tr>
               </thead>
-              <tbody className="text-[14px]">
-                {filteredLeads.map((lead: Lead) => {
-                  return (
-                    <tr
-                      key={lead.id}
-                      onClick={() => router.push(`/leads/${lead.id}`)}
-                      className="hover:bg-[#f0f4f9] hover:shadow-[0_1px_3px_rgba(0,0,0,0.05)] transition-all duration-200 group cursor-pointer border-b border-[#e0e0e0]/40 last:border-0 relative z-0 hover:z-10"
-                    >
-                      <td className="px-6 py-4 font-medium text-[#1f1f1f]">
-                        {lead.business_name}
-                      </td>
-                      <td className="px-6 py-4 text-[#444746] capitalize">
-                        {lead.category?.replace("_", " ") || "-"}
-                      </td>
-                      <td className="px-6 py-4 text-[#444746]">
-                        {lead.city_region}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <StatusBadge status={formatStatus(lead.status)} />
-                      </td>
-                      <td className="px-6 py-4 text-[#444746]">
-                        {formatDate(lead.created_at)}
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <ArrowRight className="w-4 h-4 text-[#a1a3a1] group-hover:text-[#3186ff] group-hover:translate-x-1 transition-all inline-block" />
-                      </td>
-                    </tr>
-                  );
-                })}
+              <tbody className="text-sm divide-y divide-[#e0e0e0]/40">
+                {filteredLeads.map((lead: Lead) => (
+                  <tr
+                    key={lead.id}
+                    onClick={() => router.push(`/leads/${lead.id}`)}
+                    className="hover:bg-[#f8f9fa] transition-colors duration-150 group cursor-pointer"
+                  >
+                    <td className="px-6 py-3.5 font-medium text-[#1f1f1f] whitespace-nowrap">
+                      {lead.business_name}
+                    </td>
+                    <td className="px-4 py-3.5 text-[#444746] capitalize">
+                      {lead.category?.replace("_", " ") || "-"}
+                    </td>
+                    <td className="px-4 py-3.5 text-[#444746]">
+                      {lead.city_region}
+                    </td>
+                    <td className="px-4 py-3.5 whitespace-nowrap">
+                      <StatusBadge status={formatStatus(lead.status)} />
+                    </td>
+                    <td className="px-4 py-3.5 text-[#747775]">
+                      {formatDate(lead.created_at)}
+                    </td>
+                    <td className="px-6 py-3.5 text-right">
+                      <ArrowRight className="w-4 h-4 text-[#d1d5db] group-hover:text-[#3186ff] group-hover:translate-x-0.5 transition-all inline-block" />
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           )}
         </div>
 
-        {/* Footer / Pagination Placeholder */}
+        {/* Footer */}
         {filteredLeads.length > 0 && (
-          <div className="px-6 py-4 border-t border-[#e0e0e0]/60 bg-white flex items-center justify-between shrink-0">
-            <span className="text-sm text-[#747775]">
+          <div className="px-6 py-3.5 border-t border-[#e0e0e0]/60 bg-white flex items-center justify-between shrink-0">
+            <span className="text-xs text-[#9aa0a6]">
               Showing{" "}
-              <strong className="text-[#1f1f1f]">{filteredLeads.length}</strong>{" "}
+              <span className="font-medium text-[#444746]">
+                {filteredLeads.length}
+              </span>{" "}
               result{filteredLeads.length !== 1 && "s"}
             </span>
             {/* Future pagination controls can go here */}

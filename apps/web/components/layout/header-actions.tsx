@@ -49,27 +49,27 @@ export function HeaderActions() {
   const userInitial = user?.email ? user.email.charAt(0).toUpperCase() : "";
 
   return (
-    <div className="flex items-center gap-4">
-      <button className="p-2 text-[#444746] hover:bg-[#f0f4f9] rounded-full transition-colors relative">
-        <Bell className="w-5 h-5" />
-        {/* Mock Notification Dot */}
-        <span className="absolute top-2 right-2.5 w-2 h-2 bg-[#ea4335] rounded-full border border-white"></span>
+    <div className="flex items-center gap-3">
+      {/* Notification Bell */}
+      <button className="w-8 h-8 flex items-center justify-center text-[#9aa0a6] hover:text-[#1f1f1f] hover:bg-[#f8f9fa] rounded-lg transition-colors relative">
+        <Bell className="w-4 h-4" />
+        <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#E24B4A] rounded-full border border-white" />
       </button>
 
-      {/* Profile Dropdown Container */}
+      {/* Profile Dropdown */}
       <div className="relative group">
-        <button className="w-9 h-9 rounded-full bg-[#3186ff] text-white flex items-center justify-center font-medium shadow-sm hover:shadow-md transition-all">
+        <button className="w-8 h-8 rounded-lg bg-[#e8f0fe] text-[#185FA5] flex items-center justify-center text-sm font-medium hover:bg-[#b5d4f4] transition-colors">
           {isLoading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
           ) : (
             userInitial
           )}
         </button>
 
-        {/* Hover Menu Menu */}
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-[0_4px_12px_rgba(60,64,67,0.15)] border border-[#e0e0e0]/60 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right -translate-y-2.5 group-hover:translate-y-0 z-50 overflow-hidden">
-          <div className="px-4 py-3 border-b border-[#e0e0e0]/60 bg-[#f8fafd]">
-            <p className="text-xs font-medium text-[#444746] truncate">
+        {/* Dropdown Menu */}
+        <div className="absolute right-0 mt-1.5 w-52 bg-white rounded-xl border border-[#e0e0e0]/70 shadow-[0_4px_16px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-right -translate-y-1 group-hover:translate-y-0 z-50 overflow-hidden">
+          <div className="px-4 py-3 border-b border-[#e0e0e0]/60">
+            <p className="text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em] mb-0.5">
               Signed in as
             </p>
             <p className="text-sm font-medium text-[#1f1f1f] truncate">
@@ -78,7 +78,7 @@ export function HeaderActions() {
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-2 px-4 py-3 text-sm font-medium text-[#ea4335] hover:bg-[#fef2f2] transition-colors"
+            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-[#747775] hover:text-[#c5221f] hover:bg-[#fef2f2] transition-colors"
           >
             <LogOut className="w-4 h-4" />
             Sign out

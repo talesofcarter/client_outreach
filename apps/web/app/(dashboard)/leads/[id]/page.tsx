@@ -169,65 +169,64 @@ export default function LeadDetailsPage() {
   const badge = statusConfig[lead.status] || statusConfig.not_contacted;
 
   return (
-    <div className="max-w-250 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out pb-12">
-      {/* 1. Top Navigation & Actions */}
+    <div className="max-w-250 mx-auto w-full space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out pb-12">
+      {/* Top Navigation & Actions */}
       <div className="flex items-center justify-between">
         <button
           onClick={() => router.push("/")}
-          className="flex items-center gap-2 text-[#444746] hover:text-[#1f1f1f] transition-colors font-medium group px-2 py-1 -ml-2 rounded-lg hover:bg-[#f0f4f9]"
+          className="flex items-center gap-2 text-sm font-medium text-[#747775] hover:text-[#1f1f1f] transition-colors group px-2 py-1 -ml-2 rounded-lg hover:bg-[#f8f9fa]"
         >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
           Back to Dashboard
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <button
             onClick={handleEdit}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#444746] bg-white border border-[#e0e0e0] rounded-xl hover:bg-[#f8fafd] transition-colors shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#444746] bg-white border border-[#e0e0e0] rounded-xl hover:border-[#c4c7c5] hover:bg-[#f8f9fa] transition-all"
           >
             <Edit className="w-4 h-4" /> Edit
           </button>
           <button
             onClick={handleDeleteClick}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#ea4335] bg-white border border-[#e0e0e0] rounded-xl hover:bg-[#fef2f2] hover:border-[#ea4335]/30 transition-colors shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#747775] bg-white border border-[#e0e0e0] rounded-xl hover:text-[#c5221f] hover:bg-[#fef2f2] hover:border-[#fca5a5]/50 transition-all"
           >
             <Trash2 className="w-4 h-4" /> Delete
           </button>
         </div>
       </div>
 
-      {/* 2. Header Identity Card */}
-      <div className="bg-white rounded-[28px] p-8 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] relative overflow-hidden">
+      {/* Header Identity Card */}
+      <div className="bg-white rounded-2xl p-6 border border-[#e0e0e0]/70 relative overflow-hidden">
         <div
-          className={`absolute top-0 right-0 w-64 h-64 opacity-5 rounded-bl-[200px] pointer-events-none ${badge.colors.split(" ")[0]}`}
+          className={`absolute top-0 right-0 w-56 h-56 opacity-[0.04] rounded-bl-[180px] pointer-events-none ${badge.colors.split(" ")[0]}`}
         />
 
         <div className="flex items-start justify-between relative z-10">
-          <div className="flex items-center gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-[#f0f4f9] flex items-center justify-center border border-[#e0e0e0]/60 shrink-0">
-              <Building2 className="w-8 h-8 text-[#3186ff]" strokeWidth={1.5} />
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-xl bg-[#e8f0fe] flex items-center justify-center border border-[#e0e0e0]/60 shrink-0">
+              <Building2 className="w-7 h-7 text-[#185FA5]" strokeWidth={1.5} />
             </div>
             <div>
-              <h1 className="text-[32px] font-normal text-[#1f1f1f] tracking-tight leading-none mb-2">
+              <h1 className="text-[26px] font-medium text-[#1f1f1f] tracking-tight leading-none mb-2">
                 {lead.business_name}
               </h1>
-              <div className="flex items-center gap-4 text-[#444746] text-[15px]">
+              <div className="flex items-center gap-3 text-sm text-[#747775]">
                 <span className="flex items-center gap-1.5 capitalize">
-                  <Target className="w-4 h-4" />{" "}
+                  <Target className="w-3.5 h-3.5" />
                   {lead.category?.replace("_", " ") || "Uncategorized"}
                 </span>
                 <span className="w-1 h-1 rounded-full bg-[#d1d5db]" />
                 <span className="flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4" /> {lead.city_region}
+                  <MapPin className="w-3.5 h-3.5" /> {lead.city_region}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col items-end gap-3">
+          <div className="flex flex-col items-end gap-2.5">
             <StatusBadge status={formatStatus(lead.status)} />
-
-            <span className="flex items-center gap-1.5 text-xs text-[#747775]">
+            <span className="flex items-center gap-1.5 text-xs text-[#9aa0a6]">
               <Calendar className="w-3.5 h-3.5" /> Added{" "}
               {formatDate(lead.created_at)}
             </span>
@@ -235,15 +234,16 @@ export default function LeadDetailsPage() {
         </div>
       </div>
 
-      {/* 3. Detailed Information Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Left Column: Core Issues */}
-        <div className="md:col-span-2 space-y-6">
-          <div className="bg-white rounded-3xl p-7 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)]">
-            <h3 className="text-[18px] font-medium text-[#1f1f1f] mb-4 border-b border-[#e0e0e0]/60 pb-3">
+      {/* Detailed Information Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Left Column */}
+        <div className="md:col-span-2 space-y-4">
+          {/* Key Issues */}
+          <div className="bg-white rounded-2xl p-6 border border-[#e0e0e0]/70">
+            <h3 className="text-[15px] font-medium text-[#1f1f1f] mb-3 border-b border-[#e0e0e0]/60 pb-3">
               Key Issues Identified
             </h3>
-            <div className="prose prose-sm max-w-none prose-p:text-[15px] prose-p:text-[#444746] prose-p:leading-relaxed prose-headings:text-[#1f1f1f] prose-headings:font-semibold prose-a:text-[#3186ff] prose-a:no-underline hover:prose-a:underline prose-li:text-[#444746] prose-li:text-[15px] prose-strong:text-[#1f1f1f]">
+            <div className="prose prose-sm max-w-none prose-p:text-sm prose-p:text-[#444746] prose-p:leading-relaxed prose-headings:text-[#1f1f1f] prose-headings:font-medium prose-a:text-[#3186ff] prose-a:no-underline hover:prose-a:underline prose-li:text-[#444746] prose-li:text-sm prose-strong:text-[#1f1f1f]">
               <ReactMarkdown>
                 {lead.key_issues_found ||
                   "*No key issues have been recorded for this lead yet.*"}
@@ -251,30 +251,31 @@ export default function LeadDetailsPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl p-7 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] opacity-60">
-            <h3 className="text-[18px] font-medium text-[#1f1f1f] mb-4 border-b border-[#e0e0e0]/60 pb-3">
+          {/* Activity Log */}
+          <div className="bg-white rounded-2xl p-6 border border-[#e0e0e0]/70 opacity-60">
+            <h3 className="text-[15px] font-medium text-[#1f1f1f] mb-3 border-b border-[#e0e0e0]/60 pb-3">
               Activity Log
             </h3>
-            <p className="text-sm text-[#747775] italic text-center py-6">
+            <p className="text-sm text-[#9aa0a6] italic text-center py-5">
               Interaction history and notes will appear here in future updates.
             </p>
           </div>
         </div>
 
         {/* Right Column: Contact Card */}
-        <div className="space-y-6">
-          <div className="bg-white rounded-3xl p-7 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)]">
-            <h3 className="text-[18px] font-medium text-[#1f1f1f] mb-5 border-b border-[#e0e0e0]/60 pb-3">
+        <div>
+          <div className="bg-white rounded-2xl p-6 border border-[#e0e0e0]/70">
+            <h3 className="text-[15px] font-medium text-[#1f1f1f] mb-4 border-b border-[#e0e0e0]/60 pb-3">
               Contact Details
             </h3>
 
             <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#f0f4f9] flex items-center justify-center shrink-0 mt-0.5">
-                  <Globe className="w-4 h-4 text-[#444746]" />
+                <div className="w-8 h-8 rounded-lg bg-[#f8f9fa] border border-[#e0e0e0]/60 flex items-center justify-center shrink-0 mt-0.5">
+                  <Globe className="w-4 h-4 text-[#747775]" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-[#747775] mb-0.5">
+                  <p className="text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em] mb-0.5">
                     Website
                   </p>
                   {lead.website_url ? (
@@ -282,48 +283,48 @@ export default function LeadDetailsPage() {
                       href={lead.website_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[14px] text-[#3186ff] hover:underline break-all"
+                      className="text-sm text-[#3186ff] hover:underline break-all"
                     >
                       {lead.website_url.replace(/^https?:\/\//, "")}
                     </a>
                   ) : (
-                    <p className="text-[14px] text-[#1f1f1f]">Not provided</p>
+                    <p className="text-sm text-[#9aa0a6]">Not provided</p>
                   )}
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#f0f4f9] flex items-center justify-center shrink-0 mt-0.5">
-                  <Mail className="w-4 h-4 text-[#444746]" />
+                <div className="w-8 h-8 rounded-lg bg-[#f8f9fa] border border-[#e0e0e0]/60 flex items-center justify-center shrink-0 mt-0.5">
+                  <Mail className="w-4 h-4 text-[#747775]" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-[#747775] mb-0.5">
+                  <p className="text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em] mb-0.5">
                     Email Address
                   </p>
                   {lead.email ? (
-                    <a className="text-[14px] text-[#1f1f1f] hover:text-[#3186ff] transition-colors break-all">
+                    <a className="text-sm text-[#1f1f1f] hover:text-[#3186ff] transition-colors break-all cursor-pointer">
                       {lead.email}
                     </a>
                   ) : (
-                    <p className="text-[14px] text-[#1f1f1f]">Not provided</p>
+                    <p className="text-sm text-[#9aa0a6]">Not provided</p>
                   )}
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#f0f4f9] flex items-center justify-center shrink-0 mt-0.5">
-                  <Phone className="w-4 h-4 text-[#444746]" />
+                <div className="w-8 h-8 rounded-lg bg-[#f8f9fa] border border-[#e0e0e0]/60 flex items-center justify-center shrink-0 mt-0.5">
+                  <Phone className="w-4 h-4 text-[#747775]" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-[#747775] mb-0.5">
+                  <p className="text-[11px] font-medium text-[#9aa0a6] uppercase tracking-[0.06em] mb-0.5">
                     Phone Number
                   </p>
                   {lead.phone ? (
-                    <a className="text-[14px] text-[#1f1f1f] hover:text-[#3186ff] transition-colors">
+                    <a className="text-sm text-[#1f1f1f] hover:text-[#3186ff] transition-colors cursor-pointer">
                       {lead.phone}
                     </a>
                   ) : (
-                    <p className="text-[14px] text-[#1f1f1f]">Not provided</p>
+                    <p className="text-sm text-[#9aa0a6]">Not provided</p>
                   )}
                 </div>
               </div>
@@ -332,49 +333,49 @@ export default function LeadDetailsPage() {
         </div>
       </div>
 
-      {/* Slide-out Edit Panel Component */}
+      {/* Slide-out Edit Panel */}
       <EditLeadPanel lead={lead} />
 
-      {/* The Premium Delete Modal */}
+      {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 z-100 flex items-center justify-center pointer-events-auto">
-          {/* Glassmorphism Backdrop */}
           <div
             onClick={() => setIsDeleteModalOpen(false)}
             className="absolute inset-0 bg-[#1f1f1f]/20 backdrop-blur-[2px] animate-in fade-in duration-200"
           />
 
-          {/* Modal Card */}
-          <div className="relative bg-white w-full max-w-110 rounded-3xl p-8 shadow-[0_24px_80px_rgba(0,0,0,0.12)] animate-in zoom-in-95 fade-in duration-200 ease-out m-4">
-            {/* Warning Icon Badge */}
-            <div className="w-12 h-12 rounded-full bg-[#ea4335]/10 text-[#ea4335] flex items-center justify-center mb-5 border border-[#ea4335]/20">
-              <AlertTriangle className="w-6 h-6" strokeWidth={2.5} />
+          <div className="relative bg-white w-full max-w-md rounded-2xl p-7 border border-[#e0e0e0]/70 shadow-[0_20px_60px_rgba(0,0,0,0.1)] animate-in zoom-in-95 fade-in duration-200 ease-out m-4">
+            <div className="w-10 h-10 rounded-[10px] bg-[#fef2f2] border border-[#fca5a5]/40 flex items-center justify-center mb-5">
+              <AlertTriangle
+                className="w-5 h-5 text-[#c5221f]"
+                strokeWidth={2}
+              />
             </div>
 
-            {/* Typography */}
-            <h3 className="text-[20px] font-medium text-[#1f1f1f] tracking-tight mb-2">
+            <h3 className="text-[18px] font-medium text-[#1f1f1f] tracking-tight mb-1.5">
               Delete this lead?
             </h3>
-            <p className="text-[15px] text-[#444746] leading-relaxed mb-8">
+            <p className="text-sm text-[#747775] leading-relaxed mb-6">
               This action cannot be undone. All data, contact details, and
               pipeline history for{" "}
-              <strong className="text-[#1f1f1f]">{lead.business_name}</strong>{" "}
+              <span className="font-medium text-[#1f1f1f]">
+                {lead.business_name}
+              </span>{" "}
               will be permanently removed from your database.
             </p>
 
-            {/* Action Buttons */}
-            <div className="flex items-center justify-end gap-3">
+            <div className="flex items-center justify-end gap-2.5">
               <button
                 onClick={() => setIsDeleteModalOpen(false)}
                 disabled={deleteMutation.isPending}
-                className="px-5 py-2.5 text-[14px] font-medium text-[#444746] hover:bg-[#f0f4f9] rounded-xl transition-colors disabled:opacity-50"
+                className="px-5 py-2 text-sm font-medium text-[#444746] hover:bg-[#f8f9fa] rounded-xl transition-colors disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
                 disabled={deleteMutation.isPending}
-                className="flex items-center justify-center gap-2 px-6 py-2.5 text-[14px] font-medium bg-[#ea4335] text-white rounded-xl shadow-sm hover:bg-[#dc2626] transition-all active:scale-[0.98] min-w-30 disabled:opacity-70"
+                className="flex items-center justify-center gap-2 px-5 py-2 text-sm font-medium bg-[#c5221f] text-white rounded-xl hover:bg-[#a61c17] transition-all active:scale-[0.98] min-w-28 disabled:opacity-70"
               >
                 {deleteMutation.isPending ? (
                   <Loader2 className="w-4 h-4 animate-spin" />

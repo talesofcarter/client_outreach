@@ -69,49 +69,50 @@ export function Sidebar() {
 
   return (
     <aside
-      className={`flex flex-col justify-between py-4 border-r border-transparent bg-[#f8fafd] transition-all duration-300 ease-in-out shrink-0 z-20 ${
-        isExpanded ? "w-65 px-4" : "w-22 px-2"
+      className={`flex flex-col justify-between py-5 border-r border-[#e8eaed]/80 bg-[#f8f9fa] transition-all duration-300 ease-in-out shrink-0 z-20 ${
+        isExpanded ? "w-60 px-3" : "w-18 px-2"
       }`}
     >
       <div>
-        {/* Branding & Toggle Button */}
+        {/* Branding & Toggle */}
         <div
-          className={`flex items-center mb-6 h-10 ${isExpanded ? "justify-between px-4" : "justify-center"}`}
+          className={`flex items-center mb-8 h-10 ${isExpanded ? "justify-between px-2" : "justify-center"}`}
         >
           <div
             className={`flex items-center gap-2.5 overflow-hidden transition-all duration-300 ${isExpanded ? "w-auto opacity-100" : "w-0 opacity-0"}`}
           >
-            <div className="flex gap-1 shrink-0">
-              <div className="w-2.5 h-6 rounded-full bg-[#3186ff]" />
-              <div className="w-2.5 h-6 rounded-full bg-[#fed50d]" />
-              <div className="w-2.5 h-6 rounded-full bg-[#0ebc5f]" />
+            <div className="flex gap-0.75 items-center shrink-0">
+              <div className="w-1.75 h-5 rounded-full bg-[#3186ff]" />
+              <div className="w-1.75 h-5 rounded-full bg-[#fed50d]" />
+              <div className="w-1.75 h-5 rounded-full bg-[#0ebc5f]" />
             </div>
-            <span className="text-[18px] font-medium tracking-tight whitespace-nowrap">
+            <span className="text-[17px] font-medium tracking-tight text-[#1f1f1f] whitespace-nowrap">
               Tracker
             </span>
           </div>
 
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="p-2 text-[#444746] hover:bg-[#e9eef6] rounded-full transition-colors shrink-0"
+            className="w-8 h-8 flex items-center justify-center text-[#747775] hover:text-[#1f1f1f] hover:bg-[#e9eef6] rounded-lg transition-colors shrink-0"
             title={isExpanded ? "Collapse menu" : "Expand menu"}
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Primary Action (New Lead FAB) */}
-        <div className={`mb-6 flex ${isExpanded ? "px-2" : "justify-center"}`}>
+        {/* New Lead CTA */}
+        <div className={`mb-6 ${isExpanded ? "px-1" : "flex justify-center"}`}>
           <Link
             href="?action=new-lead"
             scroll={false}
             title={!isExpanded ? "New Lead" : undefined}
-            className={`flex items-center bg-white border border-[#e0e0e0] shadow-sm hover:shadow-md hover:bg-[#f8fafd] text-[#1f1f1f] font-medium transition-all duration-300 group overflow-hidden
-              ${isExpanded ? "gap-3 px-5 py-3.5 w-full rounded-2xl" : "justify-center p-0 w-12 h-12 rounded-2xl"}
+            className={`flex items-center bg-white border border-[#e0e0e0] text-[#1f1f1f] text-sm font-medium transition-all duration-200 group overflow-hidden
+              hover:border-[#c4c7c5] hover:shadow-sm
+              ${isExpanded ? "gap-2.5 px-4 py-2.5 w-full rounded-xl" : "justify-center w-10 h-10 rounded-xl"}
             `}
           >
             <Plus
-              className="w-5 h-5 text-[#3186ff] group-hover:scale-110 transition-transform shrink-0"
+              className="w-4 h-4 text-[#3186ff] group-hover:scale-110 transition-transform shrink-0"
               strokeWidth={2.5}
             />
             <span
@@ -122,41 +123,59 @@ export function Sidebar() {
           </Link>
         </div>
 
-        {/* Navigation Pills */}
-        <nav className="flex flex-col gap-1 px-2">
-          {sidebarLinks.map((link) => {
-            return (
-              <div key={link.name}>
-                <Link
-                  href={link.href}
-                  title={!isExpanded ? `${link.name}` : undefined}
-                  className={`flex items-center rounded-full font-medium transition-all duration-200 overflow-hidden group ${isActive(link.href) ? "bg-[#c2e7ff]/40 text-[#001d35]" : "text-[#444746] hover:bg-[#e9eef6]"} ${isExpanded ? "gap-3 px-4 py-3" : "justify-center w-12 h-12 mx-auto"}`}
-                >
-                  <link.icon
-                    className={`w-5 h-5 shrink-0 ${isActive(link.href) ? "text-[#001d35]" : "text-[#444746] group-hover:text-[#1f1f1f]"}`}
-                  />
-                  <span
-                    className={`whitespace-nowrap transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0 hidden"}`}
-                  >
-                    {link.name}
-                  </span>
-                </Link>
-              </div>
-            );
-          })}
+        {/* Nav Label */}
+        {isExpanded && (
+          <p className="px-3 mb-1.5 text-[10px] font-medium text-[#9aa0a6] uppercase tracking-[0.08em]">
+            Menu
+          </p>
+        )}
+
+        {/* Navigation Links */}
+        <nav className="flex flex-col gap-0.5">
+          {sidebarLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              title={!isExpanded ? link.name : undefined}
+              className={`flex items-center text-sm font-medium transition-all duration-150 overflow-hidden group rounded-xl
+                ${
+                  isActive(link.href)
+                    ? "bg-[#e8f0fe] text-[#185FA5]"
+                    : "text-[#444746] hover:bg-[#edf2fb] hover:text-[#1f1f1f]"
+                }
+                ${isExpanded ? "gap-3 px-3 py-2.5" : "justify-center w-10 h-10 mx-auto"}
+              `}
+            >
+              <link.icon
+                className={`w-4.5 h-4.5 shrink-0 transition-colors ${
+                  isActive(link.href)
+                    ? "text-[#185FA5]"
+                    : "text-[#747775] group-hover:text-[#1f1f1f]"
+                }`}
+              />
+              <span
+                className={`whitespace-nowrap transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0 hidden"}`}
+              >
+                {link.name}
+              </span>
+            </Link>
+          ))}
         </nav>
       </div>
 
-      {/* Bottom Sign Out Button */}
-      <div className="px-2">
+      {/* Bottom: Sign Out */}
+      <div className={`${isExpanded ? "px-1" : "flex justify-center"}`}>
+        {isExpanded && (
+          <div className="mb-3 mx-1 border-t border-[#e8eaed]/80" />
+        )}
         <button
           onClick={handleLogout}
           title={!isExpanded ? "Sign out" : undefined}
-          className={`flex items-center rounded-full font-medium transition-all duration-200 overflow-hidden group text-[#ea4335] hover:bg-[#fef2f2]
-            ${isExpanded ? "gap-3 px-4 py-3 w-full" : "justify-center w-12 h-12 mx-auto"}
+          className={`flex items-center text-sm font-medium transition-all duration-150 overflow-hidden group rounded-xl text-[#747775] hover:text-[#c5221f] hover:bg-[#fef2f2]
+            ${isExpanded ? "gap-3 px-3 py-2.5 w-full" : "justify-center w-10 h-10 mx-auto"}
           `}
         >
-          <LogOut className="w-5 h-5 shrink-0" />
+          <LogOut className="w-4.5 h-4.5 shrink-0 transition-colors group-hover:text-[#c5221f]" />
           <span
             className={`whitespace-nowrap transition-all duration-300 ${isExpanded ? "opacity-100" : "opacity-0 hidden"}`}
           >
