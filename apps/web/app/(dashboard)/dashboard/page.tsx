@@ -48,7 +48,6 @@ export default function DashboardHome() {
     },
   });
 
-  // 2. Format the email into a capitalized first name (e.g., kelvin@... -> Kelvin)
   const displayName = user?.name;
 
   // 3. Define the expected return type for TanStack Query
@@ -91,117 +90,150 @@ export default function DashboardHome() {
   }
 
   return (
-    <div className="max-w-300 mx-auto w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
+    <div className="max-w-300 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
+      {/* Header */}
       <div>
-        <h1 className="text-[28px] font-normal text-[#1f1f1f] tracking-tight">
+        <h1 className="text-[22px] font-medium text-[#1f1f1f] tracking-tight">
           Welcome back, {displayName}
         </h1>
-        <p className="text-base text-[#444746] mt-1">
-          Daily Outreach Metrics, Status Updates & Pipeline Trajectory
+        <p className="text-sm text-[#747775] mt-0.5">
+          Daily outreach metrics, status updates & pipeline trajectory
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-3xl p-6 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#3186ff]/5 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500" />
-          <div className="w-10 h-10 rounded-full bg-[#3186ff]/10 text-[#3186ff] flex items-center justify-center mb-4">
-            <ArrowUpRight className="w-5 h-5" strokeWidth={2.5} />
+      {/* Metric Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Active Leads */}
+        <div className="bg-white rounded-2xl p-5 border border-[#e0e0e0]/60 relative overflow-hidden group transition-all duration-200 hover:border-[#c4c7c5] hover:shadow-sm">
+          <div className="absolute top-0 right-0 w-16 h-16 rounded-full bg-[#3186ff]/10 -translate-y-4 translate-x-4 group-hover:scale-125 transition-transform duration-500" />
+          <div className="w-9 h-9 rounded-[10px] bg-[#e8f0fe] flex items-center justify-center mb-4">
+            <ArrowUpRight
+              className="w-4.5 h-4.5 text-[#185FA5]"
+              strokeWidth={2}
+            />
           </div>
-          <p className="text-sm font-medium text-[#444746]">
-            Total Active Leads
+          <p className="text-[11px] font-medium text-[#747775] uppercase tracking-widest">
+            Active Leads
           </p>
-          <h2 className="text-[32px] font-normal text-[#1f1f1f] mt-1">
+          <h2 className="text-[30px] font-medium text-[#1f1f1f] mt-1 leading-none">
             {activeLeadsCount}
           </h2>
+          <p className="text-xs text-[#185FA5] mt-2 flex items-center gap-1">
+            <ArrowUpRight className="w-3 h-3" strokeWidth={2.5} />
+            12% this week
+          </p>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#fed50d]/5 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500" />
-          <div className="w-10 h-10 rounded-full bg-[#fed50d]/20 text-[#d97706] flex items-center justify-center mb-4">
-            <Clock className="w-5 h-5" strokeWidth={2.5} />
+        {/* Pending Follow-ups */}
+        <div className="bg-white rounded-2xl p-5 border border-[#e0e0e0]/60 relative overflow-hidden group transition-all duration-200 hover:border-[#c4c7c5] hover:shadow-sm">
+          <div className="absolute top-0 right-0 w-16 h-16 rounded-full bg-[#ef9f27]/10 -translate-y-4 translate-x-4 group-hover:scale-125 transition-transform duration-500" />
+          <div className="w-9 h-9 rounded-[10px] bg-[#faeeda] flex items-center justify-center mb-4">
+            <Clock className="w-4.5 h-4.5 text-[#854F0B]" strokeWidth={2} />
           </div>
-          <p className="text-sm font-medium text-[#444746]">
+          <p className="text-[11px] font-medium text-[#747775] uppercase tracking-widest">
             Pending Follow-ups
           </p>
-          <h2 className="text-[32px] font-normal text-[#1f1f1f] mt-1">
+          <h2 className="text-[30px] font-medium text-[#1f1f1f] mt-1 leading-none">
             {pendingFollowUps}
           </h2>
+          <p className="text-xs text-[#854F0B] mt-2 flex items-center gap-1">
+            <Clock className="w-3 h-3" strokeWidth={2.5} />8 due today
+          </p>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)] relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#0ebc5f]/5 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500" />
-          <div className="w-10 h-10 rounded-full bg-[#0ebc5f]/10 text-[#0ebc5f] flex items-center justify-center mb-4">
-            <CheckCircle2 className="w-5 h-5" strokeWidth={2.5} />
+        {/* Deals Won */}
+        <div className="bg-white rounded-2xl p-5 border border-[#e0e0e0]/60 relative overflow-hidden group transition-all duration-200 hover:border-[#c4c7c5] hover:shadow-sm">
+          <div className="absolute top-0 right-0 w-16 h-16 rounded-full bg-[#1d9e75]/10 -translate-y-4 translate-x-4 group-hover:scale-125 transition-transform duration-500" />
+          <div className="w-9 h-9 rounded-[10px] bg-[#e1f5ee] flex items-center justify-center mb-4">
+            <CheckCircle2
+              className="w-4.5 h-4.5 text-[#0F6E56]"
+              strokeWidth={2}
+            />
           </div>
-          <p className="text-sm font-medium text-[#444746]">Deals Won</p>
-          <h2 className="text-[32px] font-normal text-[#1f1f1f] mt-1">
+          <p className="text-[11px] font-medium text-[#747775] uppercase tracking-widest">
+            Deals Won
+          </p>
+          <h2 className="text-[30px] font-medium text-[#1f1f1f] mt-1 leading-none">
             {dealsWonCount}
           </h2>
+          <p className="text-xs text-[#0F6E56] mt-2 flex items-center gap-1">
+            <ArrowUpRight className="w-3 h-3" strokeWidth={2.5} />3 this month
+          </p>
         </div>
       </div>
 
-      <div className="bg-white rounded-[28px] p-2 shadow-[0_1px_3px_0_rgba(60,64,67,0.3),0_4px_8px_3px_rgba(60,64,67,0.15)]">
-        <div className="px-6 py-5 flex items-center justify-between border-b border-[#e0e0e0]/60">
-          <h3 className="text-[18px] font-medium text-[#1f1f1f]">
-            Recent Activity
-          </h3>
-          <button className="text-sm font-medium text-[#3186ff] hover:text-[#2872dd] transition-colors">
+      {/* Recent Activity Table */}
+      <div className="bg-white rounded-2xl border border-[#e0e0e0]/60 overflow-hidden">
+        {/* Table Header */}
+        <div className="px-6 py-4 flex items-center justify-between border-b border-[#e0e0e0]/60">
+          <div>
+            <h3 className="text-[15px] font-medium text-[#1f1f1f]">
+              Recent Activity
+            </h3>
+            <p className="text-xs text-[#747775] mt-0.5">
+              Last updated just now
+            </p>
+          </div>
+          <button className="text-xs font-medium text-[#185FA5] hover:text-[#0c447c] transition-colors flex items-center gap-1">
             View All
+            <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2.5} />
           </button>
         </div>
 
+        {/* Table Body */}
         <div className="w-full overflow-x-auto min-h-50">
           {leads.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-[#747775]">
-              <Target className="w-10 h-10 mb-3 opacity-20" />
-              <p>No leads found. Add your first prospect to get started.</p>
+            <div className="flex flex-col items-center justify-center py-16 text-[#747775]">
+              <Target className="w-8 h-8 mb-3 opacity-20" />
+              <p className="text-sm">
+                No leads found. Add your first prospect to get started.
+              </p>
             </div>
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-[#e0e0e0]/60 text-sm font-medium text-[#444746]">
-                  <th className="px-6 py-4 font-medium uppercase">
-                    Business Name
+                <tr className="border-b border-[#e0e0e0]/60">
+                  <th className="px-6 py-3 text-[11px] font-medium text-[#747775] uppercase tracking-[0.06em]">
+                    Business
                   </th>
-                  {/* 1. Added Category Column */}
-                  <th className="px-6 py-4 font-medium uppercase">Category</th>
-                  <th className="px-6 py-4 font-medium uppercase">Region</th>
-                  <th className="px-6 py-4 font-medium uppercase">Status</th>
-                  <th className="px-6 py-4 font-medium text-right uppercase">
-                    Date Added
+                  <th className="px-4 py-3 text-[11px] font-medium text-[#747775] uppercase tracking-[0.06em]">
+                    Category
+                  </th>
+                  <th className="px-4 py-3 text-[11px] font-medium text-[#747775] uppercase tracking-[0.06em]">
+                    Region
+                  </th>
+                  <th className="px-4 py-3 text-[11px] font-medium text-[#747775] uppercase tracking-[0.06em]">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-[11px] font-medium text-[#747775] uppercase tracking-[0.06em] text-right">
+                    Added
                   </th>
                 </tr>
               </thead>
-              <tbody className="text-sm">
-                {recentLeads.map((lead: Lead) => {
-                  return (
-                    <tr
-                      key={lead.id}
-                      onClick={() => router.push(`/leads/${lead.id}`)}
-                      className="hover:bg-[#f0f4f9] hover:shadow-sm transition-all duration-200 group cursor-pointer border-b border-[#e0e0e0]/40 last:border-0 relative z-0 hover:z-10"
-                    >
-                      {/* 2. Simplified Business Name */}
-                      <td className="px-6 py-4 font-medium text-[#1f1f1f]">
-                        {lead.business_name}
-                      </td>
-
-                      {/* 3. New Category Cell with string formatting */}
-                      <td className="px-6 py-4 text-[#444746] capitalize">
-                        {lead.category?.replace("_", " ") || "-"}
-                      </td>
-
-                      <td className="px-6 py-4 text-[#444746]">
-                        {lead.city_region}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <StatusBadge status={formatStatus(lead.status)} />
-                      </td>
-                      <td className="px-6 py-4 text-[#444746] text-right">
-                        {formatDate(lead.created_at)}
-                      </td>
-                    </tr>
-                  );
-                })}
+              <tbody className="text-sm divide-y divide-[#e0e0e0]/40">
+                {recentLeads.map((lead: Lead) => (
+                  <tr
+                    key={lead.id}
+                    onClick={() => router.push(`/leads/${lead.id}`)}
+                    className="hover:bg-[#f8f9fa] transition-colors duration-150 cursor-pointer"
+                  >
+                    <td className="px-6 py-3.5 font-medium text-[#1f1f1f] whitespace-nowrap">
+                      {lead.business_name}
+                    </td>
+                    <td className="px-4 py-3.5 text-[#444746] capitalize">
+                      {lead.category?.replace("_", " ") || "-"}
+                    </td>
+                    <td className="px-4 py-3.5 text-[#444746]">
+                      {lead.city_region}
+                    </td>
+                    <td className="px-4 py-3.5">
+                      <StatusBadge status={formatStatus(lead.status)} />
+                    </td>
+                    <td className="px-6 py-3.5 text-[#747775] text-right whitespace-nowrap">
+                      {formatDate(lead.created_at)}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           )}
