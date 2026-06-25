@@ -166,8 +166,6 @@ export default function LeadDetailsPage() {
     );
   }
 
-  const badge = statusConfig[lead.status] || statusConfig.not_contacted;
-
   return (
     <div className="max-w-250 mx-auto w-full space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out pb-12">
       {/* Top Navigation & Actions */}
@@ -198,10 +196,6 @@ export default function LeadDetailsPage() {
 
       {/* Header Identity Card */}
       <div className="bg-white rounded-2xl p-6 border border-[#e0e0e0]/70 relative overflow-hidden">
-        <div
-          className={`absolute top-0 right-0 w-56 h-56 opacity-[0.04] rounded-bl-[180px] pointer-events-none ${badge.colors.split(" ")[0]}`}
-        />
-
         <div className="flex items-start justify-between relative z-10">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl bg-[#e8f0fe] flex items-center justify-center border border-[#e0e0e0]/60 shrink-0">
