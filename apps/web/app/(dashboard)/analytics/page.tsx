@@ -105,18 +105,23 @@ export default function AnalyticsPage() {
   const pipelineData = useMemo(() => {
     const counts = leads.reduce(
       (acc, lead) => {
-        acc[lead.status] = (acc[lead.status] || 0) + 1;
+        const status = lead.status.toLowerCase();
+        acc[status] = (acc[status] || 0) + 1;
         return acc;
       },
       {} as Record<string, number>,
     );
 
     return Object.keys(counts)
-      .map((status) => ({
-        name: statusLabels[status as LeadStatus],
-        value: counts[status],
-        color: statusColors[status as LeadStatus],
-      }))
+      .map((status) => {
+        const normalizedStatus = status.toLowerCase() as LeadStatus;
+        return {
+          name: statusLabels[normalizedStatus] || status,
+          value: counts[status],
+          color: statusColors[normalizedStatus] || "#ccc",
+        };
+      })
+
       .sort((a, b) => b.value - a.value);
   }, [leads]);
 
@@ -158,7 +163,8 @@ export default function AnalyticsPage() {
         name: region,
         count: counts[region],
       }))
-      .sort((a, b) => b.count - a.count);
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10); // Top 10 by lead count
   }, [leads]);
 
   const dynamicRegionChartHeight = Math.max(350, regionData.length * 45);
