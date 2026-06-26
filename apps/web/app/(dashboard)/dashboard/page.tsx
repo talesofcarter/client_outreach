@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   Loader2,
   Target,
+  Send
 } from "lucide-react";
 import { Lead } from "@/types";
 import { formatStatus } from "@/lib/formatStatus";
@@ -76,9 +77,19 @@ export default function DashboardHome() {
   const activeLeadsCount = leads.filter(
     (l: Lead) => l.status !== "won" && l.status !== "lost",
   ).length;
+
+  const today = new Date().toISOString().split("T")[0];
+  const contactedTodayCount = leads.filter((lead) => {
+    const activityDate = new Date(lead.updated_at || lead.created_at)
+      .toISOString()
+      .split("T")[0];
+    return lead.status.toLowerCase() === "contacted" && activityDate === today;
+  }).length;
+
   const pendingFollowUps = leads.filter(
     (l: Lead) => l.status === "follow_up_scheduled",
   ).length;
+
   const dealsWonCount = leads.filter((l: Lead) => l.status === "won").length;
 
   if (isLoading) {
@@ -102,7 +113,7 @@ export default function DashboardHome() {
       </div>
 
       {/* Metric Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Active Leads */}
         <div className="bg-white rounded-3xl p-5 border border-[#e0e0e0]/60 hover:border-[#c4c7c5] hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 ease-out group flex flex-col gap-4 relative overflow-hidden">
           <div className="absolute -bottom-6 -right-6 pointer-events-none z-0 opacity-[0.03] group-hover:opacity-[0.06] group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500 ease-out">
@@ -193,6 +204,34 @@ export default function DashboardHome() {
                 <ArrowUpRight className="w-3 h-3" strokeWidth={2.5} />3
               </span>
               <span className="text-[13px] text-[#747775]">this month</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 4. Contacted Today (New Card) */}
+        <div className="bg-white rounded-3xl p-5 border border-[#e0e0e0]/60 hover:border-[#c4c7c5] hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 ease-out group flex flex-col gap-4 relative overflow-hidden">
+          <div className="absolute -bottom-6 -right-6 pointer-events-none z-0 opacity-[0.03] group-hover:opacity-[0.06] group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500 ease-out">
+            <Send className="w-36 h-36 text-[#8b5cf6]" strokeWidth={1.5} />
+          </div>
+
+          <div className="relative z-10 flex justify-between items-start">
+            <p className="text-[12px] font-medium text-[#747775] uppercase tracking-widest mt-1">
+              Contacted Today
+            </p>
+            <div className="w-10 h-10 rounded-xl bg-[#f0f4f9] group-hover:bg-[#f3e8ff] transition-colors flex items-center justify-center shrink-0">
+              <Send className="w-5 h-5 text-[#8b5cf6]" strokeWidth={2} />
+            </div>
+          </div>
+          <div className="relative z-10">
+            <h2 className="text-[32px] font-normal text-[#1f1f1f] leading-none tracking-tight">
+              {contactedTodayCount}
+            </h2>
+            <div className="flex items-center gap-2 mt-2.5">
+              <span className="flex items-center gap-1 text-[12px] font-medium text-[#6b21a8] bg-[#f3e8ff] px-2 py-0.5 rounded-md">
+                <Send className="w-3 h-3" strokeWidth={2.5} />
+                Daily
+              </span>
+              <span className="text-[13px] text-[#747775]">outreach</span>
             </div>
           </div>
         </div>
